@@ -1,5 +1,11 @@
 import { Component, type ReactNode } from "react";
-import { Alert, Loading, PeopleList, SearchControl } from "./components";
+import {
+  Alert,
+  Button,
+  Loading,
+  PeopleList,
+  SearchControl,
+} from "./components";
 import StarWarsService from "./services/StarwarsService";
 import type { People } from "./types/People";
 
@@ -9,6 +15,7 @@ type State = {
   searchTerm: string;
   results: People[];
   status: "loading" | "error" | "idle";
+  brokeRender: boolean;
 };
 
 class App extends Component<Props, State> {
@@ -24,8 +31,11 @@ class App extends Component<Props, State> {
       searchTerm,
       status: "loading",
       results: [],
+      brokeRender: false,
     };
+  }
 
+  componentDidMount(): void {
     this.loadResults();
   }
 
@@ -60,6 +70,8 @@ class App extends Component<Props, State> {
   }
 
   render(): ReactNode {
+    if (this.state.brokeRender) throw new Error("Broke render method");
+
     return (
       <div className="max-w-3xl mx-auto px-2.5 my-4 flex flex-col gap-6">
         <div className="px-4 py-4 border-1 border-zinc-200 rounded-lg shadow-md">
@@ -79,6 +91,20 @@ class App extends Component<Props, State> {
           {this.state.status === "idle" && (
             <PeopleList peoples={this.state.results} />
           )}
+        </div>
+
+        <div className="flex justify-end">
+          <Button
+            variant="danger"
+            onClick={() => {
+              this.setState((prevState) => ({
+                ...prevState,
+                brokeRender: true,
+              }));
+            }}
+          >
+            Error Boundary
+          </Button>
         </div>
       </div>
     );
