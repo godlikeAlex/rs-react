@@ -40,7 +40,7 @@ class App extends Component<Props, State> {
   }
 
   handleInputSearch(value: string) {
-    this.setState((prevState) => ({ ...prevState, searchTerm: value }));
+    this.setState({ searchTerm: value });
   }
 
   handleSearch() {
@@ -50,22 +50,20 @@ class App extends Component<Props, State> {
   }
 
   async loadResults() {
-    this.setState((prevState) => ({ ...prevState, status: "loading" }));
+    this.setState({ status: "loading" });
 
     try {
       const response = await StarWarsService.search(this.state.searchTerm);
 
-      this.setState((prevState) => ({
-        ...prevState,
+      this.setState({
         results: response.results,
         status: "idle",
-      }));
+      });
     } catch {
-      this.setState((prevState) => ({
-        ...prevState,
+      this.setState({
         results: [],
         status: "error",
-      }));
+      });
     }
   }
 
@@ -98,10 +96,9 @@ class App extends Component<Props, State> {
           <Button
             variant="danger"
             onClick={() => {
-              this.setState((prevState) => ({
-                ...prevState,
+              this.setState({
                 brokeRender: true,
-              }));
+              });
             }}
           >
             Error Boundary
