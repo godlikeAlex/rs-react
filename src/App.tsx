@@ -80,6 +80,7 @@ class App extends Component<Props, State> {
             value={this.state.searchTerm}
             onChange={this.handleInputSearch}
             onSearch={this.handleSearch}
+            disabled={this.state.status === "loading"}
           />
         </div>
 

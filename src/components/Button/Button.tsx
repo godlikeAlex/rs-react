@@ -22,6 +22,7 @@ class Button extends Component<Props> {
           {
             "bg-blue-700  hover:bg-blue-800": variant === "primary",
             "bg-red-700 hover:bg-red-800": variant === "danger",
+            "bg-gray-400 hover:bg-gray-400": props.disabled,
           },
           className,
         )}
