@@ -14,6 +14,7 @@ class App extends Component<Props, State> {
     const searchTerm = localStorage.getItem("searchTerm") ?? "";
 
     this.handleInputSearch = this.handleInputSearch.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
 
     this.state = {
       searchTerm,
@@ -24,6 +25,10 @@ class App extends Component<Props, State> {
     this.setState((prevState) => ({ ...prevState, searchTerm: value }));
   }
 
+  handleSearch() {
+    localStorage.setItem("searchTerm", this.state.searchTerm);
+  }
+
   render(): ReactNode {
     return (
       <div className="max-w-3xl mx-auto px-2.5 my-4">
@@ -32,6 +37,7 @@ class App extends Component<Props, State> {
             placeholder="Pokemon Name 🦄"
             value={this.state.searchTerm}
             onChange={this.handleInputSearch}
+            onSearch={this.handleSearch}
           />
         </div>
       </div>
