@@ -11,7 +11,7 @@ interface SearchResponse {
 export default class StarWarsService {
   static async search(searchTerm: string) {
     return api<SearchResponse>(
-      `https://swapi.dev/api/people?search=${searchTerm}`,
+      `https://swapi.py4e.com/api/people?search=${searchTerm}`,
     );
   }
 }
