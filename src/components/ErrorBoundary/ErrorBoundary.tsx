@@ -2,7 +2,6 @@ import { Component, type ReactNode } from "react";
 import { Button } from "../Button";
 
 type Props = {
-  fallback: ReactNode;
   children: ReactNode;
 };
 
