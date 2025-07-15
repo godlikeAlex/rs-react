@@ -1,5 +1,5 @@
-import { api } from "../core/api";
-import type { People } from "../types/People";
+import { api } from "@/core/api";
+import type { People } from "@/types/People";
 
 interface SearchResponse {
   count: number;

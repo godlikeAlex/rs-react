@@ -1,5 +1,6 @@
 import { Component, type ReactNode } from "react";
-import type { People } from "../../types/People";
+
+import type { People } from "@/types/People";
 
 type Props = {
   people: People;

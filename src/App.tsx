@@ -1,13 +1,14 @@
 import { Component, type ReactNode } from "react";
+
 import {
   Alert,
   ErrorBoundaryTestButton,
   Loading,
   PeopleList,
   SearchControl,
-} from "./components";
-import StarWarsService from "./services/StarwarsService";
-import type { People } from "./types/People";
+} from "@/components";
+import StarWarsService from "@/services/StarwarsService";
+import type { People } from "@/types/People";
 
 type Props = object;
 

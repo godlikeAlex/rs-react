@@ -1,6 +1,7 @@
 import { Component, type FormEvent, type ReactNode } from "react";
-import { Button } from "../Button";
 import classNames from "classnames";
+
+import { Button } from "@/components";
 
 type Props = {
   onChange: (text: string) => void;
