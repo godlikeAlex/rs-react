@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import ErrorBoundaryTestButton from "./ErrorBoundaryTestButton";
 import userEvent from "@testing-library/user-event";
 import { ErrorBoundary } from "@/components";
@@ -15,6 +15,10 @@ describe("ErrorBoundaryTestButton Component", () => {
 
   it("should throw render error when click button", async () => {
     expect.hasAssertions();
+
+    vi.spyOn(console, "log").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "warn").mockImplementation(() => {});
 
     const user = userEvent.setup();
 
