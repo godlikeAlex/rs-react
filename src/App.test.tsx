@@ -13,10 +13,11 @@ vi.mock("@/services/StarwarsService");
 
 describe("App Compoment", () => {
   afterEach(() => {
+    vi.clearAllMocks();
     localStorage.clear();
   });
 
-  it("should save searchTerm to localstorage onSubmit and call Service", async () => {
+  it("should save searchTerm to localstorage onSubmit", async () => {
     expect.hasAssertions();
 
     const user = userEvent.setup();
@@ -30,11 +31,28 @@ describe("App Compoment", () => {
     await user.type(screen.getByRole("textbox"), newValue);
     await user.click(screen.getByRole("button", { name: "Search" }));
 
-    expect(mockSearch).lastCalledWith(newValue);
+    expect(mockSearch).toHaveBeenCalledWith(newValue);
 
     await waitFor(() =>
       expect(localStorage.getItem("searchTerm")).equals(newValue),
     );
+  });
+
+  it("should call api on search submit", async () => {
+    expect.hasAssertions();
+
+    const user = userEvent.setup();
+
+    const newValue = "Luke";
+
+    render(<App />);
+
+    waitForElementToBeRemoved(() => screen.getByRole("status"));
+
+    await user.type(screen.getByRole("textbox"), newValue);
+    await user.click(screen.getByRole("button", { name: "Search" }));
+
+    expect(mockSearch).toHaveBeenCalledWith(newValue);
   });
 
   it("should show error alert when api throws error", async () => {
