@@ -24,7 +24,7 @@ export default class SearchControl extends Component<Props> {
   }
 
   render(): ReactNode {
-    const { value, onChange, disabled = true } = this.props;
+    const { value, onChange, disabled = false } = this.props;
 
     return (
       <form className="flex gap-3" onSubmit={this.handleSubmit}>
