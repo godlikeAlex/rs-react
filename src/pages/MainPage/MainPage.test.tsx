@@ -5,7 +5,7 @@ import {
   waitForElementToBeRemoved,
 } from "@testing-library/react";
 import { it, describe, expect, vi, afterEach } from "vitest";
-import App from "./App";
+import MainPage from "./MainPage";
 import userEvent from "@testing-library/user-event";
 import { mockSearch } from "@/services/__mocks__/StarwarsService";
 
@@ -24,7 +24,7 @@ describe("App Compoment", () => {
 
     const newValue = "Example People";
 
-    render(<App />);
+    render(<MainPage />);
 
     waitForElementToBeRemoved(() => screen.getByRole("status"));
 
@@ -34,7 +34,7 @@ describe("App Compoment", () => {
     expect(mockSearch).toHaveBeenCalledWith(newValue);
 
     await waitFor(() =>
-      expect(localStorage.getItem("searchTerm")).equals(newValue),
+      expect(localStorage.getItem("searchTerm")).equals(newValue)
     );
   });
 
@@ -45,7 +45,7 @@ describe("App Compoment", () => {
 
     const newValue = "Luke";
 
-    render(<App />);
+    render(<MainPage />);
 
     waitForElementToBeRemoved(() => screen.getByRole("status"));
 
@@ -61,11 +61,11 @@ describe("App Compoment", () => {
     mockSearch.mockImplementationOnce(
       () =>
         new Promise((_, reject) =>
-          setTimeout(() => reject(new Error("API ERROR")), 100),
-        ),
+          setTimeout(() => reject(new Error("API ERROR")), 100)
+        )
     );
 
-    render(<App />);
+    render(<MainPage />);
 
     await waitForElementToBeRemoved(() => screen.getByRole("status"));
 
@@ -79,7 +79,7 @@ describe("App Compoment", () => {
 
     localStorage.setItem("searchTerm", initialLocalStorageValue);
 
-    render(<App />);
+    render(<MainPage />);
 
     await waitForElementToBeRemoved(() => screen.getByRole("status"));
 
