@@ -8,6 +8,7 @@ import { it, describe, expect, vi, afterEach } from "vitest";
 import MainPage from "./MainPage";
 import userEvent from "@testing-library/user-event";
 import { mockSearch } from "@/services/__mocks__/StarwarsService";
+import { SEARCH_TERM } from "@/constants/storageKeys";
 
 vi.mock("@/services/StarwarsService");
 
@@ -34,7 +35,7 @@ describe("App Compoment", () => {
     expect(mockSearch).toHaveBeenCalledWith(newValue);
 
     await waitFor(() =>
-      expect(localStorage.getItem("searchTerm")).equals(newValue)
+      expect(localStorage.getItem(SEARCH_TERM)).equals(JSON.stringify(newValue))
     );
   });
 
@@ -77,7 +78,7 @@ describe("App Compoment", () => {
 
     const initialLocalStorageValue = "Luke";
 
-    localStorage.setItem("searchTerm", initialLocalStorageValue);
+    localStorage.setItem(SEARCH_TERM, JSON.stringify(initialLocalStorageValue));
 
     render(<MainPage />);
 

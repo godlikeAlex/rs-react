@@ -1,4 +1,6 @@
 import { Alert, Loading, PeopleList, SearchControl } from "@/components";
+import { SEARCH_TERM } from "@/constants/storageKeys";
+import useLocalStorage from "@/hooks/useLocalStorage";
 import StarWarsService from "@/services/StarwarsService";
 import type { People } from "@/types/People";
 import { useEffect, useState } from "react";
@@ -10,9 +12,11 @@ type State = {
 };
 
 export default function MainPage() {
+  const searchTermStorage = useLocalStorage<string>(SEARCH_TERM, "");
+
   const [state, setState] = useState<State>(() => {
     return {
-      searchTerm: localStorage.getItem("searchTerm") ?? "",
+      searchTerm: searchTermStorage.get(),
       status: "loading",
       results: [],
     };
@@ -43,7 +47,7 @@ export default function MainPage() {
   };
 
   const handleSearch = () => {
-    localStorage.setItem("searchTerm", state.searchTerm);
+    searchTermStorage.set(state.searchTerm);
     loadResults();
   };
 
