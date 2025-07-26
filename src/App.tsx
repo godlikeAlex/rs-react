@@ -1,5 +1,12 @@
-import { MainPage } from "./pages";
+import { Routes } from "react-router";
+import { Route } from "react-router";
+
+import { MainPage } from "@/pages";
 
 export default function App() {
-  return <MainPage />;
+  return (
+    <Routes>
+      <Route index element={<MainPage />} />
+    </Routes>
+  );
 }
