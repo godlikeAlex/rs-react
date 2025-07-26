@@ -1,26 +1,26 @@
-import { type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import classNames from "classnames";
 
 import { Button } from "@/components";
 
 type Props = {
-  onChange: (text: string) => void;
-  value: string;
+  defaultValue?: string;
   placeholder?: string;
-  onSearch: () => void;
+  onSearch: (value: string) => void;
   disabled?: boolean;
 };
 
 export default function SearchControl({
+  defaultValue,
   placeholder,
-  value,
   disabled,
-  onChange,
   onSearch,
 }: Props) {
+  const [value, setValue] = useState(() => defaultValue ?? "");
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    onSearch();
+    onSearch(value);
   };
 
   return (
@@ -28,7 +28,7 @@ export default function SearchControl({
       <input
         placeholder={placeholder}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => setValue(e.target.value)}
         className={classNames(
           "block w-full p-1.5 px-4",
           "text-gray-900 text-sm",
