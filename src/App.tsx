@@ -1,7 +1,7 @@
 import { Navigate, Routes } from "react-router";
 import { Route } from "react-router";
 
-import { DetailPage, MainPage } from "@/pages";
+import { AboutPage, DetailPage, MainPage } from "@/pages";
 import { MainLayout } from "@/layouts";
 
 export default function App() {
@@ -13,6 +13,7 @@ export default function App() {
         <Route path="home/:page?" element={<MainPage />}>
           <Route path=":peopleID" element={<DetailPage />} />
         </Route>
+        <Route path="about" element={<AboutPage />} />
       </Route>
     </Routes>
   );
