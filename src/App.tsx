@@ -1,12 +1,14 @@
 import { Routes } from "react-router";
 import { Route } from "react-router";
 
-import { MainPage } from "@/pages";
+import { DetailPage, MainPage } from "@/pages";
 
 export default function App() {
   return (
     <Routes>
-      <Route index element={<MainPage />} />
+      <Route path=":page?" element={<MainPage />}>
+        <Route path=":peopleID" element={<DetailPage />} />
+      </Route>
     </Routes>
   );
 }

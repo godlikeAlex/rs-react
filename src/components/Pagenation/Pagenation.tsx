@@ -4,16 +4,17 @@ import { Link } from "react-router";
 type Props = {
   pages: number;
   currentPage: number;
+  renderLink: (page: number) => string;
 };
 
-export default function Pagenation({ pages, currentPage }: Props) {
+export default function Pagenation({ pages, currentPage, renderLink }: Props) {
   return (
     <nav aria-label="Page navigation example">
       <ul className="d-flex inline-flex justify-center -space-x-px text-sm w-full mt-2">
         {Array.from({ length: pages }, (_, x) => x + 1).map((page) => (
           <li key={page}>
             <Link
-              to={`?page=${page}`}
+              to={renderLink(page)}
               className={classNames(
                 "flex items-center justify-center px-3 h-8",
                 {
