@@ -1,4 +1,4 @@
-import { Loading } from "@/components";
+import { Alert, Loading } from "@/components";
 import useFetch from "@/hooks/useFetch";
 import StarWarsService from "@/services/StarwarsService";
 import classNames from "classnames";
@@ -57,7 +57,7 @@ export default function DetailPage() {
           {status === "loading" ? (
             <Loading />
           ) : status === "error" ? (
-            <h1>Somethind went wrong</h1>
+            <Alert variant="danger">Somethin went wrong</Alert>
           ) : (
             <>
               <h1 className="text-blue-600 text-2xl font-bold">
