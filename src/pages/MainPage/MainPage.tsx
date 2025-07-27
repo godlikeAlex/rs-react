@@ -52,7 +52,7 @@ export default function MainPage() {
             <>
               <PeopleList peoples={searchQuery.data.results} />
               <Pagenation
-                renderLink={(page) => `/${page}`}
+                renderLink={(page) => `/home/${page}`}
                 pages={Math.ceil(searchQuery.data.count / ITEMS_PER_PAGE)}
                 currentPage={Number(page)}
               />

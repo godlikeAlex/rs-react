@@ -19,7 +19,7 @@ export default function DetailPage() {
   });
 
   const handleClose = () => {
-    navigate(`/${page}`);
+    navigate(`/home/${page}`);
   };
 
   return (
