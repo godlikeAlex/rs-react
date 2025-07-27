@@ -8,6 +8,8 @@ describe("PeopleList Component", () => {
 
     const peoplesMock = [
       {
+        id: "1",
+        url: "people/1",
         name: "Aleksandr",
         height: "1234",
         birth_year: "2000",
