@@ -1,5 +1,4 @@
 import {
-  render,
   screen,
   waitFor,
   waitForElementToBeRemoved,
@@ -9,6 +8,7 @@ import MainPage from "./MainPage";
 import userEvent from "@testing-library/user-event";
 import { mockSearch } from "@/services/__mocks__/StarwarsService";
 import { SEARCH_TERM } from "@/constants/storageKeys";
+import { renderWithProviders } from "@/tests/utils/render";
 
 vi.mock("@/services/StarwarsService");
 
@@ -25,14 +25,14 @@ describe("App Compoment", () => {
 
     const newValue = "Example People";
 
-    render(<MainPage />);
+    renderWithProviders(<MainPage />);
 
     waitForElementToBeRemoved(() => screen.getByRole("status"));
 
     await user.type(screen.getByRole("textbox"), newValue);
     await user.click(screen.getByRole("button", { name: "Search" }));
 
-    expect(mockSearch).toHaveBeenCalledWith(newValue);
+    expect(mockSearch).toHaveBeenCalledWith({ search: newValue, page: "1" });
 
     await waitFor(() =>
       expect(localStorage.getItem(SEARCH_TERM)).equals(JSON.stringify(newValue))
@@ -46,14 +46,14 @@ describe("App Compoment", () => {
 
     const newValue = "Luke";
 
-    render(<MainPage />);
+    renderWithProviders(<MainPage />);
 
     waitForElementToBeRemoved(() => screen.getByRole("status"));
 
     await user.type(screen.getByRole("textbox"), newValue);
     await user.click(screen.getByRole("button", { name: "Search" }));
 
-    expect(mockSearch).toHaveBeenCalledWith(newValue);
+    expect(mockSearch).toHaveBeenCalledWith({ search: newValue, page: "1" });
   });
 
   it("should show error alert when api throws error", async () => {
@@ -66,7 +66,7 @@ describe("App Compoment", () => {
         )
     );
 
-    render(<MainPage />);
+    renderWithProviders(<MainPage />);
 
     await waitForElementToBeRemoved(() => screen.getByRole("status"));
 
@@ -80,11 +80,14 @@ describe("App Compoment", () => {
 
     localStorage.setItem(SEARCH_TERM, JSON.stringify(initialLocalStorageValue));
 
-    render(<MainPage />);
+    renderWithProviders(<MainPage />);
 
     await waitForElementToBeRemoved(() => screen.getByRole("status"));
 
     expect(screen.getByRole("textbox")).toHaveValue(initialLocalStorageValue);
-    expect(mockSearch).toHaveBeenCalledWith(initialLocalStorageValue);
+    expect(mockSearch).toHaveBeenCalledWith({
+      search: initialLocalStorageValue,
+      page: "1",
+    });
   });
 });

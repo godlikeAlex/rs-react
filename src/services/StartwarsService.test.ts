@@ -19,7 +19,6 @@ describe("StarwarsService", () => {
 
     const result = await StarWarsService.search({
       search: searchTerm,
-      page: "1",
     });
 
     expect(apiMock).toHaveBeenCalledWith(
