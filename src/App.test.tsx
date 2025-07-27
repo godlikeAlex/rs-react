@@ -1,89 +1,28 @@
-import {
-  render,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-} from "@testing-library/react";
-import { it, describe, expect, vi, afterEach } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { describe, it, expect } from "vitest";
 import App from "./App";
-import userEvent from "@testing-library/user-event";
-import { mockSearch } from "@/services/__mocks__/StarwarsService";
+import { MemoryRouter } from "react-router";
 
-vi.mock("@/services/StarwarsService");
-
-describe("App Compoment", () => {
-  afterEach(() => {
-    vi.clearAllMocks();
-    localStorage.clear();
-  });
-
-  it("should save searchTerm to localstorage onSubmit", async () => {
-    expect.hasAssertions();
-
-    const user = userEvent.setup();
-
-    const newValue = "Example People";
-
-    render(<App />);
-
-    waitForElementToBeRemoved(() => screen.getByRole("status"));
-
-    await user.type(screen.getByRole("textbox"), newValue);
-    await user.click(screen.getByRole("button", { name: "Search" }));
-
-    expect(mockSearch).toHaveBeenCalledWith(newValue);
-
-    await waitFor(() =>
-      expect(localStorage.getItem("searchTerm")).equals(newValue),
+describe("App routing", () => {
+  it("should render MainPage on /home", () => {
+    render(
+      <MemoryRouter initialEntries={["/home"]}>
+        <App />
+      </MemoryRouter>
     );
+    expect(
+      screen.getByPlaceholderText(/Star Wars Person 🌚/i)
+    ).toBeInTheDocument();
   });
 
-  it("should call api on search submit", async () => {
-    expect.hasAssertions();
-
-    const user = userEvent.setup();
-
-    const newValue = "Luke";
-
-    render(<App />);
-
-    waitForElementToBeRemoved(() => screen.getByRole("status"));
-
-    await user.type(screen.getByRole("textbox"), newValue);
-    await user.click(screen.getByRole("button", { name: "Search" }));
-
-    expect(mockSearch).toHaveBeenCalledWith(newValue);
-  });
-
-  it("should show error alert when api throws error", async () => {
-    expect.hasAssertions();
-
-    mockSearch.mockImplementationOnce(
-      () =>
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error("API ERROR")), 100),
-        ),
+  it("should render About on /about", () => {
+    render(
+      <MemoryRouter initialEntries={["/about"]}>
+        <App />
+      </MemoryRouter>
     );
-
-    render(<App />);
-
-    await waitForElementToBeRemoved(() => screen.getByRole("status"));
-
-    expect(screen.getByRole("alert")).toBeInTheDocument();
-  });
-
-  it("should load searchTerm from local storage", async () => {
-    expect.hasAssertions();
-
-    const initialLocalStorageValue = "Luke";
-
-    localStorage.setItem("searchTerm", initialLocalStorageValue);
-
-    render(<App />);
-
-    await waitForElementToBeRemoved(() => screen.getByRole("status"));
-
-    expect(screen.getByRole("textbox")).toHaveValue(initialLocalStorageValue);
-    expect(mockSearch).toHaveBeenCalledWith(initialLocalStorageValue);
+    expect(
+      screen.getByRole("heading", { name: "About Me" })
+    ).toBeInTheDocument();
   });
 });

@@ -7,11 +7,34 @@ interface SearchResponse {
   count: number;
   next?: string;
   prev?: string;
-  results: People[];
+  results: Omit<People, "id">[];
 }
 
 export default class StarWarsService {
-  static async search(searchTerm: string) {
-    return api<SearchResponse>(`${BASE_URL}/people?search=${searchTerm}`);
+  static async search(params: { search?: string; page?: string }) {
+    const searchParams = new URLSearchParams(params);
+
+    const response = await api<SearchResponse>(
+      `${BASE_URL}/people?${searchParams.toString()}`
+    );
+
+    return {
+      ...response,
+      results: response.results.map(this.extractPersonWithID),
+    };
+  }
+
+  static async getPeople(peopleID: string) {
+    return api<People>(`${BASE_URL}/people/${peopleID}`);
+  }
+
+  private static extractPersonWithID(people: Omit<People, "id">): People {
+    const result = people.url.match(/\/(\d+)\/?$/);
+    const peopleID = result?.[1] ?? "";
+
+    return {
+      ...people,
+      id: peopleID,
+    };
   }
 }

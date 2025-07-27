@@ -5,3 +5,5 @@ export * from "./Loading";
 export * from "./Alert";
 export * from "./ErrorBoundaryTestButton";
 export * from "./ErrorBoundary";
+export * from "./Pagenation";
+export * from "./Header";
