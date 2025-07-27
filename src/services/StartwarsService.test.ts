@@ -12,7 +12,7 @@ describe("StarwarsService", () => {
 
     const mockResponse = {
       count: 1,
-      results: [{ name: "Luke Skywalker" }],
+      results: [{ name: "Luke Skywalker", url: "peoples/1/" }],
     };
 
     const apiMock = vi.spyOn(apiModule, "api").mockResolvedValue(mockResponse);

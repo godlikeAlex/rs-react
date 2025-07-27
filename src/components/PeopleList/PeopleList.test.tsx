@@ -1,6 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { it, describe, expect } from "vitest";
 import PeopleList from "./PeopleList";
+import { renderWithProviders } from "@/tests/utils/render";
 
 describe("PeopleList Component", () => {
   it("should render a list of people", () => {
@@ -18,7 +19,7 @@ describe("PeopleList Component", () => {
       },
     ];
 
-    render(<PeopleList peoples={peoplesMock} />);
+    renderWithProviders(<PeopleList peoples={peoplesMock} />);
 
     expect(screen.getByText(peoplesMock[0].name)).toBeInTheDocument();
     expect(screen.getByText(peoplesMock[0].height)).toBeInTheDocument();
