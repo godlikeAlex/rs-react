@@ -11,7 +11,9 @@ interface SearchResponse {
 }
 
 export default class StarWarsService {
-  static async search(searchTerm: string) {
-    return api<SearchResponse>(`${BASE_URL}/people?search=${searchTerm}`);
+  static async search(params: { search?: string; page?: string }) {
+    const searchParams = new URLSearchParams(params);
+
+    return api<SearchResponse>(`${BASE_URL}/people?${searchParams.toString()}`);
   }
 }

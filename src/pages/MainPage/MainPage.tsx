@@ -1,24 +1,36 @@
 import { useState } from "react";
-import { Alert, Loading, PeopleList, SearchControl } from "@/components";
+import {
+  Alert,
+  Loading,
+  Pagenation,
+  PeopleList,
+  SearchControl,
+} from "@/components";
 import { SEARCH_TERM } from "@/constants/storageKeys";
 import useFetch from "@/hooks/useFetch";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import StarWarsService from "@/services/StarwarsService";
+import { useSearchParams } from "react-router";
+
+const ITEMS_PER_PAGE = 10;
 
 export default function MainPage() {
   const searchTermStorage = useLocalStorage<string>(SEARCH_TERM, "");
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState<string>(() =>
     searchTermStorage.get()
   );
+  const page = searchParams.get("page") ?? "1";
 
   const searchQuery = useFetch({
-    queryFn: () => StarWarsService.search(searchTerm),
-    key: ["search", searchTerm],
+    queryFn: () => StarWarsService.search({ search: searchTerm, page }),
+    key: ["search", searchTerm, page],
   });
 
   const handleSearch = (newSearchTerm: string) => {
     searchTermStorage.set(newSearchTerm);
     setSearchTerm(newSearchTerm);
+    setSearchParams({});
   };
 
   return (
@@ -37,7 +49,13 @@ export default function MainPage() {
         ) : searchQuery.status === "error" ? (
           <Alert variant="danger">Whoops... Something went wrong</Alert>
         ) : (
-          <PeopleList peoples={searchQuery.data.results} />
+          <>
+            <PeopleList peoples={searchQuery.data.results} />
+            <Pagenation
+              pages={Math.ceil(searchQuery.data.count / ITEMS_PER_PAGE)}
+              currentPage={Number(page)}
+            />
+          </>
         )}
       </div>
     </div>

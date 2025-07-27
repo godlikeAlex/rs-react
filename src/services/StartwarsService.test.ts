@@ -17,10 +17,13 @@ describe("StarwarsService", () => {
 
     const apiMock = vi.spyOn(apiModule, "api").mockResolvedValue(mockResponse);
 
-    const result = await StarWarsService.search(searchTerm);
+    const result = await StarWarsService.search({
+      search: searchTerm,
+      page: "1",
+    });
 
     expect(apiMock).toHaveBeenCalledWith(
-      `${BASE_URL}/people?search=${searchTerm}`,
+      `${BASE_URL}/people?search=${searchTerm}`
     );
 
     expect(result.results).toHaveLength(mockResponse.count);
