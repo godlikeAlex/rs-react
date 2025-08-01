@@ -1,6 +1,6 @@
 export default function AboutPage() {
   return (
-    <div className="px-4 py-4 border-1 border-zinc-200 rounded-lg shadow-md text-center">
+    <div className="px-4 py-4 border-1 border-zinc-200 rounded-lg shadow-md text-center dark:text-white">
       <h1 className="text-3xl">About Me</h1>
       <h2 className="my-2">
         My name is Alexander. I’ve always liked programming and working with

@@ -13,11 +13,11 @@ export default function PeopleListItem({ people }: Props) {
     <tr
       key={people.name}
       onClick={() => navigate(`${people.id}`)}
-      className="bg-white border-b border-gray-200 hover:bg-gray-200 cursor-pointer"
+      className="bg-white border-b border-gray-200 hover:bg-gray-200 cursor-pointer dark:bg-gray-700 dark:text-gray-400"
     >
       <th
         scope="row"
-        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-400"
       >
         {people.name}
       </th>
