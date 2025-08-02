@@ -10,7 +10,8 @@ export default function ActionBar() {
   return (
     <div
       className={classNames(
-        "fixed left-0 bottom-0 w-full p-4 bg-gray-100 rounded-t-xl flex items-center justify-between"
+        "fixed left-0 bottom-0 w-full p-4 rounded-t-xl flex items-center justify-between",
+        "bg-gray-100 text-black dark:text-white dark:bg-gray-800"
       )}
     >
       <span>Selected: {selected.length} people</span>
