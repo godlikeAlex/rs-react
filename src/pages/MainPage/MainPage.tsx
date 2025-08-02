@@ -11,6 +11,7 @@ import useFetch from "@/hooks/useFetch";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import StarWarsService from "@/services/StarwarsService";
 import { Outlet, useParams } from "react-router";
+import ActionBar from "@/components/PeopleList/ActionBar";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -34,7 +35,7 @@ export default function MainPage() {
 
   return (
     <>
-      <div className="px-4 py-4 border-1 border-zinc-200 rounded-lg shadow-md">
+      <div className="px-4 py-8 border-1 border-zinc-200 rounded-lg shadow-md">
         <SearchControl
           placeholder="Star Wars Person 🌚"
           defaultValue={searchTerm}
@@ -42,7 +43,7 @@ export default function MainPage() {
           disabled={searchQuery.status === "loading"}
         />
       </div>
-      <div className="px-4 py-4 border-1 border-zinc-200 rounded-lg shadow-md">
+      <div className="px-4 py-4 mb-20 border-1 border-zinc-200 rounded-lg shadow-md">
         {searchQuery.status === "loading" ? (
           <Loading />
         ) : searchQuery.status === "error" ? (
@@ -57,6 +58,7 @@ export default function MainPage() {
             />
           </>
         )}
+        <ActionBar />
       </div>
 
       <Outlet />
