@@ -1,9 +1,38 @@
 import usePeopleSelectStore from "@/stores/people-selection-store";
 import classNames from "classnames";
 import { Button } from "../Button";
+import { useRef, useState } from "react";
 
 export default function ActionBar() {
   const { selected, unselectAll } = usePeopleSelectStore();
+  const [exportUrl, setExportUrl] = useState("");
+  const downloadLinkRef = useRef<HTMLAnchorElement>(null);
+
+  const handleExport = () => {
+    const dataCSV = [
+      ["name", "height", "birth", "gender", "mass"],
+      ...selected.map(({ name, height, birth_year, gender, mass }) => [
+        name,
+        height,
+        birth_year,
+        gender,
+        mass,
+      ]),
+    ]
+      .map((row) => row.join(","))
+      .join("\n");
+
+    const blob = new Blob([dataCSV], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+
+    setExportUrl(url);
+
+    setTimeout(() => {
+      downloadLinkRef.current?.click();
+      URL.revokeObjectURL(url);
+      setExportUrl("");
+    }, 0);
+  };
 
   if (selected.length === 0) return;
 
@@ -17,7 +46,15 @@ export default function ActionBar() {
       <span>Selected: {selected.length} people</span>
 
       <div className="flex gap-5">
-        <Button>Download CV</Button>
+        <Button onClick={handleExport}>Download CV</Button>
+        <a
+          ref={downloadLinkRef}
+          download={`${selected.length}_items.csv`}
+          href={exportUrl}
+          className="hidden"
+        >
+          Download file
+        </a>
         <Button variant="danger" onClick={() => unselectAll()}>
           Unslect All
         </Button>
