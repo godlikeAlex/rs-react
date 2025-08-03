@@ -24,14 +24,13 @@ export default function ActionBar() {
 
     const blob = new Blob([dataCSV], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
-
     setExportUrl(url);
 
     setTimeout(() => {
       downloadLinkRef.current?.click();
       URL.revokeObjectURL(url);
       setExportUrl("");
-    }, 0);
+    }, 100);
   };
 
   if (selected.length === 0) return;
@@ -46,7 +45,7 @@ export default function ActionBar() {
       <span>Selected: {selected.length} people</span>
 
       <div className="flex gap-5">
-        <Button onClick={handleExport}>Download CV</Button>
+        <Button onClick={handleExport}>Download CSV</Button>
         <a
           ref={downloadLinkRef}
           download={`${selected.length}_items.csv`}
@@ -56,7 +55,7 @@ export default function ActionBar() {
           Download file
         </a>
         <Button variant="danger" onClick={() => unselectAll()}>
-          Unslect All
+          Unselect All
         </Button>
       </div>
     </div>
