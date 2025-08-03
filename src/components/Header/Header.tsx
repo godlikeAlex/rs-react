@@ -1,3 +1,6 @@
+import ThemeContext from "@/contexts/ThemeContext/ThemeContext";
+import classNames from "classnames";
+import { useContext } from "react";
 import { NavLink } from "react-router";
 
 const LINKS = [
@@ -12,6 +15,8 @@ const LINKS = [
 ];
 
 export default function Header() {
+  const { theme } = useContext(ThemeContext);
+
   return (
     <nav>
       <ul className="flex justify-center gap-10 mt-2">
@@ -20,7 +25,10 @@ export default function Header() {
             <NavLink
               to={link.path}
               className={({ isActive }) =>
-                isActive ? "text-blue-700 underline" : ""
+                classNames(
+                  { "text-blue-700 underline  dark:text-blue-700": isActive },
+                  { "text-white": theme === "dark" }
+                )
               }
             >
               {link.label}

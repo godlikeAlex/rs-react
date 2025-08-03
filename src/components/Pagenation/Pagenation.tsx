@@ -20,7 +20,8 @@ export default function Pagenation({ pages, currentPage, renderLink }: Props) {
                 {
                   "bg-blue-500 text-white hover:bg-blue-500 cursor-not-allowed":
                     currentPage === page,
-                  "hover:bg-gray-100 hover:text-gray-700": currentPage !== page,
+                  "hover:bg-gray-100 hover:text-gray-700 dark:text-white":
+                    currentPage !== page,
                 },
                 "leading-tight text-gray-500 border border-gray-300"
               )}
