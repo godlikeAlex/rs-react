@@ -1,5 +1,5 @@
 import usePeopleSelectStore from "@/stores/people-selection-store";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import ActionBar from "./ActionBar";
 import userEvent from "@testing-library/user-event";
@@ -68,11 +68,9 @@ describe("Action Bar Component", () => {
 
     await user.click(screen.getByRole("button", { name: "Download CSV" }));
 
-    await waitFor(() => {
-      expect(screen.getByRole("link", { hidden: true })).toHaveAttribute(
-        "href",
-        "mock-url"
-      );
-    });
+    expect(screen.getByRole("link", { hidden: true })).toHaveAttribute(
+      "href",
+      "mock-url"
+    );
   });
 });

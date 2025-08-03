@@ -1,12 +1,24 @@
-import usePeopleSelectStore from "@/stores/people-selection-store";
+import { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
+import usePeopleSelectStore from "@/stores/people-selection-store";
 import { Button } from "../Button";
-import { useRef, useState } from "react";
 
 export default function ActionBar() {
   const { selected, unselectAll } = usePeopleSelectStore();
   const [exportUrl, setExportUrl] = useState("");
   const downloadLinkRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    if (exportUrl) {
+      downloadLinkRef.current?.click();
+    }
+
+    return () => {
+      if (exportUrl) {
+        URL.revokeObjectURL(exportUrl);
+      }
+    };
+  }, [exportUrl]);
 
   const handleExport = () => {
     const dataCSV = [
@@ -25,12 +37,6 @@ export default function ActionBar() {
     const blob = new Blob([dataCSV], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
     setExportUrl(url);
-
-    setTimeout(() => {
-      downloadLinkRef.current?.click();
-      URL.revokeObjectURL(url);
-      setExportUrl("");
-    }, 100);
   };
 
   if (selected.length === 0) return;
