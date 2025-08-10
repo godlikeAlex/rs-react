@@ -1,7 +1,9 @@
 import ThemeContext from "@/contexts/ThemeContext/ThemeContext";
+import { useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { useContext } from "react";
 import { NavLink } from "react-router";
+import { Button } from "../Button";
 
 const LINKS = [
   {
@@ -15,11 +17,16 @@ const LINKS = [
 ];
 
 export default function Header() {
+  const queryClient = useQueryClient();
   const { theme } = useContext(ThemeContext);
+
+  const handleRefetchAll = () => {
+    queryClient.invalidateQueries();
+  };
 
   return (
     <nav>
-      <ul className="flex justify-center gap-10 mt-2">
+      <ul className="flex justify-center items-center gap-10 mt-2">
         {LINKS.map((link) => (
           <li key={link.path}>
             <NavLink
@@ -35,6 +42,9 @@ export default function Header() {
             </NavLink>
           </li>
         ))}
+        <li>
+          <Button onClick={handleRefetchAll}>🔄 Refetch All</Button>
+        </li>
       </ul>
     </nav>
   );
