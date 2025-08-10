@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import type { PropsWithChildren, ReactNode } from "react";
 import { MemoryRouter } from "react-router";
 
-const queryClient = new QueryClient({
+export const queryClientTest = new QueryClient({
   defaultOptions: {
     queries: {
       retry: false,
@@ -12,13 +12,17 @@ const queryClient = new QueryClient({
 });
 
 export function withQueryClient(ui: ReactNode) {
-  return <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>;
+  return (
+    <QueryClientProvider client={queryClientTest}>{ui}</QueryClientProvider>
+  );
 }
 
 function wrapperProviders({ children }: PropsWithChildren) {
   return (
     <MemoryRouter>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <QueryClientProvider client={queryClientTest}>
+        {children}
+      </QueryClientProvider>
     </MemoryRouter>
   );
 }
