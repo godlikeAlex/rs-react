@@ -11,13 +11,11 @@ import { SEARCH_TERM } from "@/constants/storageKeys";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { Outlet, useParams } from "react-router";
 import ActionBar from "@/components/PeopleList/ActionBar";
-import usePeople, { PEOPLE_LIST_QUERY_KEY } from "./hooks/usePeople";
-import { useQueryClient } from "@tanstack/react-query";
+import usePeople from "./hooks/usePeople";
 
 const ITEMS_PER_PAGE = 10;
 
 export default function MainPage() {
-  const queryClient = useQueryClient();
   const searchTermStorage = useLocalStorage<string>(SEARCH_TERM, "");
   const [searchTerm, setSearchTerm] = useState<string>(() =>
     searchTermStorage.get()
@@ -30,10 +28,6 @@ export default function MainPage() {
   const handleSearch = (newSearchTerm: string) => {
     searchTermStorage.set(newSearchTerm);
     setSearchTerm(newSearchTerm);
-  };
-
-  const handleRefetch = () => {
-    queryClient.invalidateQueries({ queryKey: [PEOPLE_LIST_QUERY_KEY] });
   };
 
   return (
@@ -53,8 +47,12 @@ export default function MainPage() {
           <Alert variant="danger">Whoops... Something went wrong</Alert>
         ) : (
           <>
-            <Button onClick={handleRefetch} variant="danger" className="mb-2">
-              Refetch Data
+            <Button
+              onClick={() => searchQuery.refetch()}
+              variant="danger"
+              className="mb-2"
+            >
+              Refetch current page
             </Button>
             <PeopleList peoples={searchQuery.data.results} />
             <Pagenation
