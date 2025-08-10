@@ -1,21 +1,23 @@
 import { useState } from "react";
 import {
   Alert,
+  Button,
   Loading,
   Pagenation,
   PeopleList,
   SearchControl,
 } from "@/components";
 import { SEARCH_TERM } from "@/constants/storageKeys";
-import useFetch from "@/hooks/useFetch";
 import useLocalStorage from "@/hooks/useLocalStorage";
-import StarWarsService from "@/services/StarwarsService";
 import { Outlet, useParams } from "react-router";
 import ActionBar from "@/components/PeopleList/ActionBar";
+import usePeople, { PEOPLE_LIST_QUERY_KEY } from "./hooks/usePeople";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ITEMS_PER_PAGE = 10;
 
 export default function MainPage() {
+  const queryClient = useQueryClient();
   const searchTermStorage = useLocalStorage<string>(SEARCH_TERM, "");
   const [searchTerm, setSearchTerm] = useState<string>(() =>
     searchTermStorage.get()
@@ -23,14 +25,15 @@ export default function MainPage() {
 
   const { page = "1" } = useParams<{ page: string }>();
 
-  const searchQuery = useFetch({
-    queryFn: () => StarWarsService.search({ search: searchTerm, page }),
-    key: ["search", searchTerm, page],
-  });
+  const searchQuery = usePeople({ page, search: searchTerm });
 
   const handleSearch = (newSearchTerm: string) => {
     searchTermStorage.set(newSearchTerm);
     setSearchTerm(newSearchTerm);
+  };
+
+  const handleRefetch = () => {
+    queryClient.invalidateQueries({ queryKey: [PEOPLE_LIST_QUERY_KEY] });
   };
 
   return (
@@ -40,16 +43,19 @@ export default function MainPage() {
           placeholder="Star Wars Person 🌚"
           defaultValue={searchTerm}
           onSearch={handleSearch}
-          disabled={searchQuery.status === "loading"}
+          disabled={searchQuery.isPending}
         />
       </div>
       <div className="px-4 py-4 mb-20 border-1 border-zinc-200 rounded-lg shadow-md">
-        {searchQuery.status === "loading" ? (
+        {searchQuery.isPending || searchQuery.isFetching ? (
           <Loading />
-        ) : searchQuery.status === "error" ? (
+        ) : searchQuery.isError ? (
           <Alert variant="danger">Whoops... Something went wrong</Alert>
         ) : (
           <>
+            <Button onClick={handleRefetch} variant="danger" className="mb-2">
+              Refetch Data
+            </Button>
             <PeopleList peoples={searchQuery.data.results} />
             <Pagenation
               renderLink={(page) => `/home/${page}`}

@@ -9,7 +9,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "./main.css";
 
-export const queryClient = new QueryClient();
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: { staleTime: 8 * 60 * 1000 },
+  },
+});
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
