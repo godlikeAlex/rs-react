@@ -13,13 +13,13 @@ export default async function HomeLayout({
 }: Params) {
   const { slug = [] } = await params;
 
-  const detailsID = slug.at(1);
+  const peopleID = slug.at(1);
 
   return (
     <>
       {children}
 
-      {detailsID && details}
+      {peopleID ? details : null}
     </>
   );
 }
