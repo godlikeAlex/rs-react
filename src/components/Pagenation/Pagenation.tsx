@@ -1,5 +1,5 @@
+import Link from "next/link";
 import classNames from "classnames";
-import { Link } from "react-router";
 
 type Props = {
   pages: number;
@@ -14,7 +14,7 @@ export default function Pagenation({ pages, currentPage, renderLink }: Props) {
         {Array.from({ length: pages }, (_, x) => x + 1).map((page) => (
           <li key={page}>
             <Link
-              to={renderLink(page)}
+              href={renderLink(page)}
               className={classNames(
                 "flex items-center justify-center px-3 h-8",
                 {

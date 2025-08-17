@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import usePeopleSelectStore from "@/stores/people-selection-store";

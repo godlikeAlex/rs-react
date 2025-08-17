@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState, type PropsWithChildren } from "react";
 import type { Theme } from "./ThemeContext";
 import ThemeContext from "./ThemeContext";

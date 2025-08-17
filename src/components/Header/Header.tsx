@@ -1,13 +1,15 @@
+"use client";
+
 import ThemeContext from "@/contexts/ThemeContext/ThemeContext";
-import { useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { useContext } from "react";
-import { NavLink } from "react-router";
 import { Button } from "../Button";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const LINKS = [
   {
-    path: "home",
+    path: "/home",
     label: "Home",
   },
   {
@@ -17,31 +19,31 @@ const LINKS = [
 ];
 
 export default function Header() {
-  const queryClient = useQueryClient();
+  const pathname = usePathname();
   const { theme } = useContext(ThemeContext);
 
-  const handleRefetchAll = () => {
-    queryClient.invalidateQueries();
-  };
+  const handleRefetchAll = () => {};
 
   return (
     <nav>
       <ul className="flex justify-center items-center gap-10 mt-2">
-        {LINKS.map((link) => (
-          <li key={link.path}>
-            <NavLink
-              to={link.path}
-              className={({ isActive }) =>
-                classNames(
-                  { "text-blue-700 underline  dark:text-blue-700": isActive },
-                  { "text-white": theme === "dark" }
-                )
-              }
-            >
-              {link.label}
-            </NavLink>
-          </li>
-        ))}
+        {LINKS.map((link) => {
+          const isActive = pathname?.startsWith(link.path);
+
+          return (
+            <li key={link.path}>
+              <Link
+                href={link.path}
+                className={classNames({
+                  "text-blue-700 underline  dark:text-blue-700": isActive,
+                  "text-white": theme === "dark",
+                })}
+              >
+                {link.label}
+              </Link>
+            </li>
+          );
+        })}
         <li>
           <Button onClick={handleRefetchAll}>🔄 Refetch All</Button>
         </li>

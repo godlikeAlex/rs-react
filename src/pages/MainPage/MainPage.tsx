@@ -17,28 +17,16 @@ const ITEMS_PER_PAGE = 10;
 
 export default function MainPage() {
   const searchTermStorage = useLocalStorage<string>(SEARCH_TERM, "");
-  const [searchTerm, setSearchTerm] = useState<string>(() =>
-    searchTermStorage.get()
-  );
+  const [searchTerm] = useState<string>(() => searchTermStorage.get());
 
   const { page = "1" } = useParams<{ page: string }>();
 
   const searchQuery = usePeople({ page, search: searchTerm });
 
-  const handleSearch = (newSearchTerm: string) => {
-    searchTermStorage.set(newSearchTerm);
-    setSearchTerm(newSearchTerm);
-  };
-
   return (
     <>
       <div className="px-4 py-8 border-1 border-zinc-200 rounded-lg shadow-md">
-        <SearchControl
-          placeholder="Star Wars Person 🌚"
-          defaultValue={searchTerm}
-          onSearch={handleSearch}
-          disabled={searchQuery.isPending}
-        />
+        <SearchControl />
       </div>
       <div className="px-4 py-4 mb-20 border-1 border-zinc-200 rounded-lg shadow-md">
         {searchQuery.isPending || searchQuery.isFetching ? (
