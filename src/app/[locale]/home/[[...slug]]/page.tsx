@@ -3,6 +3,7 @@ import StarWarsService from "@/services/StarwarsService";
 import { PeopleList } from "@/components/PeopleList";
 import { Pagenation } from "@/components/Pagenation";
 import { SearchControl } from "@/components/SearchControl";
+import { notFound } from "next/navigation";
 
 interface Props {
   params: Promise<{ slug: [] }>;
@@ -15,6 +16,8 @@ export default async function Page({ params, searchParams }: Props) {
   const { slug = [] } = await params;
   const searchTerm = (await searchParams).query;
   const [page = "1"] = slug;
+
+  if (slug.length > 2) return notFound();
 
   const { results: peoples, count } = await StarWarsService.search({
     search: searchTerm || "",

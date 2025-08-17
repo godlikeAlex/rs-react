@@ -1,0 +1,27 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "refetch-all": "Refetch All"
+  },
+  "SearchControl": {
+    "placeholder": "People from Star Wars 🌚",
+    "search": "Search"
+  },
+  "PeopleList": {
+    "name": "Name",
+    "height": "Height",
+    "birth": "Birth Date",
+    "gender": "Gender",
+    "mass": "Mass",
+    "details": "Details"
+  },
+  "About": {
+    "title": "About Me",
+    "desc": "My name is Alexander. I have always loved programming and working with code. I develop web applications and enjoy it because it allows me to solve problems and create useful tools. I specialize in using modern technologies like React to create clear and functional interfaces.",
+    "my github": "My Github"
+  },
+  "NotFound": {
+    "title": "Nothing Found"
+  }
+}

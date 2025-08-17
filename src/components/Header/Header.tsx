@@ -6,19 +6,23 @@ import { useContext } from "react";
 import { Button } from "../Button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import LocaleSwitcher from "../LocaleSwitcher";
 
 const LINKS = [
   {
     path: "/home",
-    label: "Home",
+    label: "home",
   },
   {
     path: "/about",
-    label: "About",
+    label: "about",
   },
 ];
 
 export default function Header() {
+  const t = useTranslations("navigation");
+
   const pathname = usePathname();
   const { theme } = useContext(ThemeContext);
 
@@ -39,13 +43,17 @@ export default function Header() {
                   "text-white": theme === "dark",
                 })}
               >
-                {link.label}
+                {t(link.label)}
               </Link>
             </li>
           );
         })}
         <li>
-          <Button onClick={handleRefetchAll}>🔄 Refetch All</Button>
+          <Button onClick={handleRefetchAll}>🔄 {t("refetch-all")}</Button>
+        </li>
+
+        <li>
+          <LocaleSwitcher />
         </li>
       </ul>
     </nav>

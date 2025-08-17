@@ -5,8 +5,11 @@ import classNames from "classnames";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 import { Button } from "@/components";
+import { useTranslations } from "next-intl";
 
 export default function SearchControl() {
+  const t = useTranslations("SearchControl");
+
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -29,7 +32,7 @@ export default function SearchControl() {
   return (
     <form className="flex gap-3" onSubmit={handleSubmit}>
       <input
-        placeholder={"Star Wars Person 🌚"}
+        placeholder={t("placeholder")}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         className={classNames(
@@ -41,7 +44,7 @@ export default function SearchControl() {
         )}
       />
 
-      <Button className="flex-1/3">Search</Button>
+      <Button className="flex-1/3">{t("search")}</Button>
     </form>
   );
 }

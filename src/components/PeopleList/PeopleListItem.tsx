@@ -7,12 +7,15 @@ import usePeopleSelectStore from "@/stores/people-selection-store";
 
 import type { People } from "@/types/People";
 import { useParams, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 type Props = {
   people: People;
 };
 
 export default function PeopleListItem({ people }: Props) {
+  const t = useTranslations("PeopleList");
+
   const searchParams = useSearchParams();
   const params = useParams<{ slug: string }>();
 
@@ -53,7 +56,7 @@ export default function PeopleListItem({ people }: Props) {
           }}
           className={classNames("text-blue-700", "hover:text-blue-400")}
         >
-          Details
+          {t("details")}
         </Link>
       </td>
     </tr>

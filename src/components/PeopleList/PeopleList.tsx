@@ -1,11 +1,14 @@
 import type { People } from "@/types/People";
 import PeopleListItem from "./PeopleListItem";
+import { useTranslations } from "next-intl";
 
 type Props = {
   peoples: People[];
 };
 
 export default function PeopleList({ peoples }: Props) {
+  const t = useTranslations("PeopleList");
+
   const peopleRows = peoples.map((people) => (
     <PeopleListItem key={people.name} people={people} />
   ));
@@ -17,19 +20,19 @@ export default function PeopleList({ peoples }: Props) {
           <tr>
             <th scope="col" className="px-6 py-3"></th>
             <th scope="col" className="px-6 py-3">
-              Name
+              {t("name")}
             </th>
             <th scope="col" className="px-6 py-3">
-              Height
+              {t("height")}
             </th>
             <th scope="col" className="px-6 py-3">
-              Birth Year
+              {t("birth")}
             </th>
             <th scope="col" className="px-6 py-3">
-              Gender
+              {t("gender")}
             </th>
             <th scope="col" className="px-6 py-3">
-              Mass
+              {t("mass")}
             </th>
             <th scope="col" className="px-6 py-3"></th>
           </tr>
