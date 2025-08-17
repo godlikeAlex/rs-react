@@ -1,7 +1,7 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { render } from "@testing-library/react";
+import { NextIntlClientProvider } from "next-intl";
 import type { PropsWithChildren, ReactNode } from "react";
-import { MemoryRouter } from "react-router";
 
 export const queryClientTest = new QueryClient({
   defaultOptions: {
@@ -11,19 +11,9 @@ export const queryClientTest = new QueryClient({
   },
 });
 
-export function withQueryClient(ui: ReactNode) {
-  return (
-    <QueryClientProvider client={queryClientTest}>{ui}</QueryClientProvider>
-  );
-}
-
 function wrapperProviders({ children }: PropsWithChildren) {
   return (
-    <MemoryRouter>
-      <QueryClientProvider client={queryClientTest}>
-        {children}
-      </QueryClientProvider>
-    </MemoryRouter>
+    <NextIntlClientProvider locale="ru">{children}</NextIntlClientProvider>
   );
 }
 

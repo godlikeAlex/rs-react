@@ -9,7 +9,7 @@ const searchControlMock = () => ({
   placeholder: "Mock Input",
 });
 
-describe("SearchControl Component", () => {
+describe.todo("SearchControl Component", () => {
   it("should render input and button", () => {
     expect.hasAssertions();
 

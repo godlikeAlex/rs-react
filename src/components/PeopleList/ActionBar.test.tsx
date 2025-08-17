@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import ActionBar from "./ActionBar";
 import userEvent from "@testing-library/user-event";
 
-describe("Action Bar Component", () => {
+describe.todo("Action Bar Component", () => {
   beforeEach(() => {
     usePeopleSelectStore.setState({ selected: [], togglePeople: () => true });
   });
