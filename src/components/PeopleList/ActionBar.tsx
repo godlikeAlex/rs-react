@@ -1,45 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import usePeopleSelectStore from "@/stores/people-selection-store";
 import { Button } from "../Button";
 
 export default function ActionBar() {
   const { selected, unselectAll } = usePeopleSelectStore();
-  const [exportUrl, setExportUrl] = useState("");
-  const downloadLinkRef = useRef<HTMLAnchorElement>(null);
-
-  useEffect(() => {
-    if (exportUrl) {
-      downloadLinkRef.current?.click();
-    }
-
-    return () => {
-      if (exportUrl) {
-        URL.revokeObjectURL(exportUrl);
-      }
-    };
-  }, [exportUrl]);
-
-  const handleExport = () => {
-    const dataCSV = [
-      ["name", "height", "birth", "gender", "mass"],
-      ...selected.map(({ name, height, birth_year, gender, mass }) => [
-        name,
-        height,
-        birth_year,
-        gender,
-        mass,
-      ]),
-    ]
-      .map((row) => row.join(","))
-      .join("\n");
-
-    const blob = new Blob([dataCSV], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    setExportUrl(url);
-  };
 
   if (selected.length === 0) return;
 
@@ -53,15 +19,39 @@ export default function ActionBar() {
       <span>Selected: {selected.length} people</span>
 
       <div className="flex gap-5">
-        <Button onClick={handleExport}>Download CSV</Button>
-        <a
-          ref={downloadLinkRef}
-          download={`${selected.length}_items.csv`}
-          href={exportUrl}
-          className="hidden"
-        >
-          Download file
-        </a>
+        <form action="/api/generate-csv" method="POST">
+          {selected.map((people, index) => (
+            <div key={people.id}>
+              <input
+                type="hidden"
+                name={`peoples[${index}]`}
+                value={people.name}
+              />
+              <input
+                type="hidden"
+                name={`peoples[${index}]`}
+                value={people.height}
+              />
+              <input
+                type="hidden"
+                name={`peoples[${index}]`}
+                value={people.birth_year}
+              />
+              <input
+                type="hidden"
+                name={`peoples[${index}]`}
+                value={people.gender}
+              />
+              <input
+                type="hidden"
+                name={`peoples[${index}]`}
+                value={people.mass}
+              />
+            </div>
+          ))}
+
+          <Button>Download CSV</Button>
+        </form>
         <Button variant="danger" onClick={() => unselectAll()}>
           Unselect All
         </Button>
