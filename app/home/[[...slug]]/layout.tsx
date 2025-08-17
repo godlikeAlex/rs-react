@@ -1,4 +1,3 @@
-import { Header } from "@/components";
 import ActionBar from "@/components/PeopleList/ActionBar";
 import type { ReactNode } from "react";
 
@@ -19,7 +18,6 @@ export default async function HomeLayout({
 
   return (
     <>
-      <Header />
       {children}
       <ActionBar />
       {peopleID ? details : null}
