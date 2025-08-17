@@ -20,7 +20,7 @@ describe("Alert Component", () => {
 
     expect(screen.getByRole("alert")).toHaveClass(
       "text-green-600",
-      "dark:text-green-400",
+      "dark:text-green-400"
     );
   });
 
@@ -31,7 +31,7 @@ describe("Alert Component", () => {
 
     expect(screen.getByRole("alert")).toHaveClass(
       "text-red-800",
-      "dark:text-red-400",
+      "dark:text-red-400"
     );
   });
 });

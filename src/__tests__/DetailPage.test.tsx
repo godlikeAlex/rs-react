@@ -1,11 +1,10 @@
 import { renderWithProviders } from "@/tests/utils/render";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { screen, waitForElementToBeRemoved } from "@testing-library/dom";
 import {
   mockGetPeople,
   mockPeople,
 } from "@/services/__mocks__/StarwarsService";
-import { beforeEach } from "node:test";
 
 vi.mock("@/services/StarwarsService");
 

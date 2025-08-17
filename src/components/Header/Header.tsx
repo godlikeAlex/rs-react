@@ -4,10 +4,10 @@ import ThemeContext from "@/contexts/ThemeContext/ThemeContext";
 import classNames from "classnames";
 import { useContext } from "react";
 import { Button } from "../Button";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import LocaleSwitcher from "../LocaleSwitcher";
+import { Link } from "@/i18n/navigation";
 
 const LINKS = [
   {

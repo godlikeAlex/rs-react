@@ -11,7 +11,7 @@ describe("button Component", () => {
     render(<Button>{buttonLabel}</Button>);
 
     expect(
-      screen.getByRole("button", { name: buttonLabel }),
+      screen.getByRole("button", { name: buttonLabel })
     ).toBeInTheDocument();
   });
 
@@ -22,7 +22,7 @@ describe("button Component", () => {
 
     expect(screen.getByRole("button")).toHaveClass(
       "bg-blue-700",
-      "hover:bg-blue-800",
+      "hover:bg-blue-800"
     );
   });
 
@@ -33,7 +33,7 @@ describe("button Component", () => {
 
     expect(screen.getByRole("button")).toHaveClass(
       "bg-red-700",
-      "hover:bg-red-800",
+      "hover:bg-red-800"
     );
   });
 
@@ -52,7 +52,7 @@ describe("button Component", () => {
 
     expect(screen.getByRole("button")).toHaveClass(
       "bg-gray-400",
-      "hover:bg-gray-400",
+      "hover:bg-gray-400"
     );
   });
 

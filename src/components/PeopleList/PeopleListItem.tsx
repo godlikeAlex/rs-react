@@ -1,13 +1,13 @@
 "use client";
 
 import classNames from "classnames";
-import Link from "next/link";
 
 import usePeopleSelectStore from "@/stores/people-selection-store";
 
 import type { People } from "@/types/People";
 import { useParams, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 type Props = {
   people: People;
