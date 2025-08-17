@@ -1,32 +1,38 @@
+"use client";
+
 import { useState, type FormEvent } from "react";
 import classNames from "classnames";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 import { Button } from "@/components";
+import { useTranslations } from "next-intl";
 
-type Props = {
-  defaultValue?: string;
-  placeholder?: string;
-  onSearch: (value: string) => void;
-  disabled?: boolean;
-};
+export default function SearchControl() {
+  const t = useTranslations("SearchControl");
 
-export default function SearchControl({
-  defaultValue,
-  placeholder,
-  disabled,
-  onSearch,
-}: Props) {
-  const [value, setValue] = useState(() => defaultValue ?? "");
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const [value, setValue] = useState(() => searchParams?.get("query") ?? "");
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    onSearch(value);
+
+    const params = new URLSearchParams(searchParams || []);
+
+    if (value) {
+      params.set("query", value);
+    } else {
+      params.delete("query");
+    }
+    replace(`${pathname}?${params.toString()}`);
   };
 
   return (
     <form className="flex gap-3" onSubmit={handleSubmit}>
       <input
-        placeholder={placeholder}
+        placeholder={t("placeholder")}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         className={classNames(
@@ -38,9 +44,7 @@ export default function SearchControl({
         )}
       />
 
-      <Button className="flex-1/3" disabled={disabled}>
-        Search
-      </Button>
+      <Button className="flex-1/3">{t("search")}</Button>
     </form>
   );
 }

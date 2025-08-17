@@ -1,49 +1,59 @@
+"use client";
+
 import ThemeContext from "@/contexts/ThemeContext/ThemeContext";
-import { useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { useContext } from "react";
-import { NavLink } from "react-router";
 import { Button } from "../Button";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import LocaleSwitcher from "../LocaleSwitcher";
+import { Link } from "@/i18n/navigation";
 
 const LINKS = [
   {
-    path: "home",
-    label: "Home",
+    path: "/home",
+    label: "home",
   },
   {
     path: "/about",
-    label: "About",
+    label: "about",
   },
 ];
 
 export default function Header() {
-  const queryClient = useQueryClient();
+  const t = useTranslations("navigation");
+
+  const pathname = usePathname();
   const { theme } = useContext(ThemeContext);
 
-  const handleRefetchAll = () => {
-    queryClient.invalidateQueries();
-  };
+  const handleRefetchAll = () => {};
 
   return (
     <nav>
       <ul className="flex justify-center items-center gap-10 mt-2">
-        {LINKS.map((link) => (
-          <li key={link.path}>
-            <NavLink
-              to={link.path}
-              className={({ isActive }) =>
-                classNames(
-                  { "text-blue-700 underline  dark:text-blue-700": isActive },
-                  { "text-white": theme === "dark" }
-                )
-              }
-            >
-              {link.label}
-            </NavLink>
-          </li>
-        ))}
+        {LINKS.map((link) => {
+          const isActive = pathname?.startsWith(link.path);
+
+          return (
+            <li key={link.path}>
+              <Link
+                href={link.path}
+                className={classNames({
+                  "text-blue-700 underline  dark:text-blue-700": isActive,
+                  "text-white": theme === "dark",
+                })}
+              >
+                {t(link.label)}
+              </Link>
+            </li>
+          );
+        })}
         <li>
-          <Button onClick={handleRefetchAll}>🔄 Refetch All</Button>
+          <Button onClick={handleRefetchAll}>🔄 {t("refetch-all")}</Button>
+        </li>
+
+        <li>
+          <LocaleSwitcher />
         </li>
       </ul>
     </nav>

@@ -15,7 +15,7 @@ function useLocalStorage<T>(key: string): {
 function useLocalStorage<T>(key: string, defaultValue?: T) {
   const set = (value: T) => {
     try {
-      localStorage.setItem(key, JSON.stringify(value));
+      localStorage?.setItem(key, JSON.stringify(value));
     } catch (error) {
       console.log("Error", error);
     }
@@ -23,7 +23,11 @@ function useLocalStorage<T>(key: string, defaultValue?: T) {
 
   const get = (): T | undefined => {
     try {
-      const value = localStorage.getItem(key);
+      if (typeof window === "undefined") {
+        return undefined;
+      }
+
+      const value = window?.localStorage?.getItem(key) ?? null;
 
       if (!value) return defaultValue;
 
@@ -35,7 +39,7 @@ function useLocalStorage<T>(key: string, defaultValue?: T) {
 
   const remove = () => {
     try {
-      localStorage.removeItem(key);
+      localStorage?.removeItem(key);
     } catch (error) {
       console.log("Error while remove item", error);
     }

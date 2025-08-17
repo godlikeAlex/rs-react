@@ -1,24 +1,33 @@
-import { Link, useNavigate } from "react-router";
+"use client";
+
 import classNames from "classnames";
+
 import usePeopleSelectStore from "@/stores/people-selection-store";
+
 import type { People } from "@/types/People";
+import { useParams, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 type Props = {
   people: People;
 };
 
 export default function PeopleListItem({ people }: Props) {
-  const navigate = useNavigate();
+  const t = useTranslations("PeopleList");
+
+  const searchParams = useSearchParams();
+  const params = useParams<{ slug: string }>();
+
+  const [page = "1"] = params?.slug || [];
+
   const { selected, togglePeople } = usePeopleSelectStore();
-
   const isSelected = selected.some((selected) => selected.id === people.id);
-
   const handleSelect = () => togglePeople(people);
 
   return (
     <tr
       key={people.name}
-      onClick={() => navigate(`${people.id}`)}
       className="bg-white border-b border-gray-200 hover:bg-gray-200 cursor-pointer dark:bg-gray-700 dark:text-gray-400"
     >
       <th scope="row" className="px-6 py-4">
@@ -41,10 +50,13 @@ export default function PeopleListItem({ people }: Props) {
       <td className="px-6 py-4">{people.mass}</td>
       <td className="px-6 py-4">
         <Link
-          to={`${people.id}`}
+          href={{
+            pathname: `/home/${page}/${people.id}`,
+            query: searchParams?.toString(),
+          }}
           className={classNames("text-blue-700", "hover:text-blue-400")}
         >
-          Details
+          {t("details")}
         </Link>
       </td>
     </tr>
