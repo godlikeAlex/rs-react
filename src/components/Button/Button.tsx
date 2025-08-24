@@ -16,6 +16,7 @@ export default function Button({
     <button
       className={clsx(
         "px-3 py-2 rounded-md cursor-pointer transition",
+        "disabled:opacity-30 disabled:pointer-events-none",
         variant === "primary" && [
           ["bg-violet-500 text-white"],
           ["hover:bg-violet-700"],
