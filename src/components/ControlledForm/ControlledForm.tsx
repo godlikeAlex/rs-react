@@ -5,11 +5,18 @@ import type z from "zod";
 
 import { formSchema } from "@/schemas/FormSchema";
 import { useCountryStore } from "@/stores/countriesStore";
+import { useFormStore } from "@/stores/formsStore";
+import { convertToBase64 } from "@/utils/convertToBase64";
+
+interface Props {
+  onSuccessSubmit: () => void;
+}
 
 type Inputs = z.infer<typeof formSchema>;
 
-export default function ControlledForm() {
+export default function ControlledForm({ onSuccessSubmit }: Props) {
   const countries = useCountryStore((state) => state.countries);
+  const addFormToStore = useFormStore((state) => state.addForm);
 
   const {
     register,
@@ -32,8 +39,14 @@ export default function ControlledForm() {
     },
   });
 
-  const onSubmit = (values: Inputs) => {
-    console.log(values);
+  const onSubmit = async (values: Inputs) => {
+    addFormToStore({
+      ...values,
+      password: values.passwords.password,
+      file: await convertToBase64(values.file[0]),
+    });
+
+    onSuccessSubmit();
   };
 
   return (

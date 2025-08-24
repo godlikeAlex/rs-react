@@ -1,9 +1,11 @@
 import { Button, ControlledForm, Modal } from "@/components";
+import { useFormStore } from "@/stores/formsStore";
 import clsx from "clsx";
 import { useState } from "react";
 
 export default function MainPage() {
-  const [isOpen, setIsOpen] = useState(false);
+  const forms = useFormStore((store) => store.forms);
+  const [controlledModalIsOpen, setControlledModalIsOpen] = useState(false);
 
   return (
     <div
@@ -13,17 +15,30 @@ export default function MainPage() {
         "flex items-center justify-center flex-col"
       )}
     >
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <ControlledForm />
-      </Modal>
       <h1 className="text-7xl">React Forms</h1>
       <div className="flex gap-5 mt-8">
-        <Button>Controlled Form</Button>
-        <Button variant="ghost">Uncontrolled Form</Button>
-        <Button variant="ghost" onClick={() => setIsOpen(true)}>
-          Open modal
+        <Button onClick={() => setControlledModalIsOpen(true)}>
+          Controlled Form
         </Button>
+        <Button variant="ghost">Uncontrolled Form</Button>
       </div>
+
+      <div>
+        {forms.map((form) => (
+          <div className="border-2" key={form.name}>
+            <img src={form.file} alt={form.name} />
+          </div>
+        ))}
+      </div>
+
+      <Modal
+        isOpen={controlledModalIsOpen}
+        onClose={() => setControlledModalIsOpen(false)}
+      >
+        <ControlledForm
+          onSuccessSubmit={() => setControlledModalIsOpen(false)}
+        />
+      </Modal>
     </div>
   );
 }
