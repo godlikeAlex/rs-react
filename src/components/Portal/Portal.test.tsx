@@ -38,12 +38,14 @@ describe("Portal Component", () => {
     expect(children.parentElement?.id).toMatch(new RegExp(`^${prefix}-`));
   });
 
-  it("should delete portal on unmount", () => {
-    expect.hasAssertions();
-
+  it("should delete portal on unmount", async () => {
     const prefix = "popup-modal";
 
-    const { unmount } = render(<Portal prefix={prefix} />);
+    const { unmount } = render(
+      <Portal prefix={prefix}>
+        <h2>Example</h2>
+      </Portal>
+    );
 
     const portal = document.body.querySelector(`div[id^='${prefix}-']`);
 
