@@ -1,4 +1,10 @@
-import { Button, ControlledForm, FormView, Modal } from "@/components";
+import {
+  Button,
+  ControlledForm,
+  FormView,
+  Modal,
+  UncontrolledForm,
+} from "@/components";
 import { useFormStore } from "@/stores/formsStore";
 import clsx from "clsx";
 import { useState } from "react";
@@ -6,6 +12,7 @@ import { useState } from "react";
 export default function MainPage() {
   const forms = useFormStore((store) => store.forms);
   const [controlledModalIsOpen, setControlledModalIsOpen] = useState(false);
+  const [uncontrolledModalIsOpen, setUncontrolledModalIsOpen] = useState(false);
 
   return (
     <div
@@ -20,7 +27,12 @@ export default function MainPage() {
         <Button onClick={() => setControlledModalIsOpen(true)}>
           Controlled Form
         </Button>
-        <Button variant="ghost">Uncontrolled Form</Button>
+        <Button
+          variant="ghost"
+          onClick={() => setUncontrolledModalIsOpen(true)}
+        >
+          Uncontrolled Form
+        </Button>
       </div>
 
       <div className="grid grid-cols-2 gap-10 mt-5">
@@ -35,6 +47,15 @@ export default function MainPage() {
       >
         <ControlledForm
           onSuccessSubmit={() => setControlledModalIsOpen(false)}
+        />
+      </Modal>
+
+      <Modal
+        isOpen={uncontrolledModalIsOpen}
+        onClose={() => setUncontrolledModalIsOpen(false)}
+      >
+        <UncontrolledForm
+          onSuccessSubmit={() => setUncontrolledModalIsOpen(false)}
         />
       </Modal>
     </div>

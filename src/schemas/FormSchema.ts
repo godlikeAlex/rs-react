@@ -27,10 +27,12 @@ export const formSchema = z.object({
       message: "Password and Confirm password should be same",
       path: ["confirmPassword"],
     }),
-  gender: z.union([z.literal("Man"), z.literal("Woman")]),
+  gender: z.union([z.literal("Man"), z.literal("Woman")], {
+    message: "Please select gender",
+  }),
   country: z.enum(countries, "Please select correct country"),
   file: z
-    .instanceof(FileList)
+    .instanceof(FileList, { message: "Please select file" })
     .refine((fileList) => fileList.length > 0, "File is required")
     .refine(
       (files) => {
