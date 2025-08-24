@@ -4,3 +4,4 @@ export * from "./Portal";
 export * from "./Input";
 export * from "./ControlledForm";
 export * from "./Select";
+export * from "./FormView";

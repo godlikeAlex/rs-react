@@ -1,4 +1,4 @@
-import { Button, ControlledForm, Modal } from "@/components";
+import { Button, ControlledForm, FormView, Modal } from "@/components";
 import { useFormStore } from "@/stores/formsStore";
 import clsx from "clsx";
 import { useState } from "react";
@@ -23,11 +23,9 @@ export default function MainPage() {
         <Button variant="ghost">Uncontrolled Form</Button>
       </div>
 
-      <div>
+      <div className="grid grid-cols-2 gap-10 mt-5">
         {forms.map((form) => (
-          <div className="border-2" key={form.name}>
-            <img src={form.file} alt={form.name} />
-          </div>
+          <FormView form={form} key={form.addedAt} />
         ))}
       </div>
 
