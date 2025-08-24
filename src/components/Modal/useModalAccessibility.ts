@@ -33,7 +33,7 @@ export default function useModalAccessibility({ isOpen }: Params) {
       const first = focusableElements.at(0);
       const last = focusableElements.at(-1);
 
-      if (event.key === "Tab") {
+      if (event.key === "Tab" && !event.shiftKey) {
         if (document.activeElement === last) {
           event.preventDefault();
           first?.focus();
