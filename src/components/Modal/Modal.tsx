@@ -37,19 +37,25 @@ export default function Modal({
   return (
     <Portal prefix="portal-modal">
       <div role="dialog" aria-modal="true" ref={modalRef}>
-        <div className={clsx("fixed top-0 left-0 w-full h-screen")}>
+        <div
+          className={clsx("fixed top-0 left-0 w-full h-full overflow-y-auto")}
+        >
           <div
             className={clsx(
-              "absolute top-0 left-0 w-full h-screen bg-black opacity-45"
+              "fixed top-0 left-0 w-full min-h-screen h-full bg-black opacity-45"
             )}
             aria-hidden="true"
             onClick={onClose}
           />
 
-          <div className={clsx("flex items-center justify-center h-full")}>
+          <div
+            className={clsx(
+              "flex items-center justify-center min-h-screen py-3.5"
+            )}
+          >
             <div
               className={clsx(
-                "relative pb-8 pt-9 px-10",
+                "relative pb-8 pt-9 px-10 max-w-[90%]",
                 "bg-amber-50 rounded-md"
               )}
             >
