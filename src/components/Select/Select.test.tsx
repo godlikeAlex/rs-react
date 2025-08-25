@@ -14,8 +14,6 @@ describe("Select Component", () => {
 
     render(<Select list={["example"]} label={label} />);
 
-    console.log(screen.logTestingPlaygroundURL());
-
     expect(screen.getByText(label)).toBeInTheDocument();
   });
 });

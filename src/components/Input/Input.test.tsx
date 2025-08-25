@@ -14,8 +14,6 @@ describe("Select Component", () => {
 
     render(<Input label={label} />);
 
-    console.log(screen.logTestingPlaygroundURL());
-
     expect(screen.getByText(label)).toBeInTheDocument();
   });
 });
