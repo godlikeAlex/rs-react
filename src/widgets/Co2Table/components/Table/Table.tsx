@@ -9,12 +9,14 @@ export default function Table() {
     <table className="w-full">
       <TableHeader />
 
-      {Object.entries(countries).map(([countryName, country]) => (
-        <TableRowCountry
-          key={countryName}
-          country={{ ...country, name: countryName }}
-        />
-      ))}
+      <tbody>
+        {Object.entries(countries).map(([countryName, country]) => (
+          <TableRowCountry
+            key={countryName}
+            country={{ ...country, name: countryName }}
+          />
+        ))}
+      </tbody>
     </table>
   );
 }
