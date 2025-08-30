@@ -5,7 +5,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
   return (
     <main
       className={clsx(
-        "mx-auto w-3xl max-w-full",
+        "mx-auto w-4xl max-w-full",
         "rounded-md border-1 border-stone-200",
         "mt-15 p-2 shadow-2xl text-center"
       )}

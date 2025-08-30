@@ -1,3 +1,5 @@
+import type { CountryList } from "@/types/Country";
+
 const DOWNLOAD_URL = "/data/owid-co2-data.json";
 
 export default class Co2Service {
@@ -5,7 +7,7 @@ export default class Co2Service {
     const response = await fetch(DOWNLOAD_URL);
 
     if (response.ok) {
-      const data = await response.json();
+      const data: CountryList = await response.json();
 
       return data;
     }
