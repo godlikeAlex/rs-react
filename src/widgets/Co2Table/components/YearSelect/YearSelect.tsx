@@ -1,6 +1,7 @@
 import clsx from "clsx";
-import { useCo2Data } from "../../contexts/Co2Context";
-import CountryService from "../../services/CountryService";
+
+import CountryService from "@/widgets/Co2Table/services/CountryService";
+import { useCo2Data } from "@/widgets/Co2Table/contexts/Co2Context";
 
 export default function YearSelect() {
   const countryList = useCo2Data();

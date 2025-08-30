@@ -1,4 +1,4 @@
-import { useCo2Data } from "../../contexts/Co2Context";
+import { useCo2Data } from "@/widgets/Co2Table/contexts/Co2Context";
 import { TableHeader } from "../TableHeader";
 import { TableRowCountry } from "../TableRowCountry";
 

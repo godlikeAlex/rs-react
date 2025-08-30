@@ -1,10 +1,10 @@
 import { Suspense } from "react";
+import clsx from "clsx";
 
-import Co2ContextProvider from "@/widgets/Co2Table/contexts/Co2Provider";
+import { Co2ContextProvider } from "@/widgets/Co2Table/contexts/Co2Context";
 
 import { Spinner } from "@/components";
 import { Table, YearSelect } from "./components";
-import clsx from "clsx";
 
 export default function Co2Table() {
   const fallbackSpinner = (

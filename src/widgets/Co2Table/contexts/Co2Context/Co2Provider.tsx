@@ -1,5 +1,5 @@
 import { use, type ReactNode } from "react";
-import { Co2Context } from "@/widgets/Co2Table/contexts/Co2Context";
+import { Co2Context } from "./Co2Context";
 
 import Co2Service from "@/services/Co2Service";
 
