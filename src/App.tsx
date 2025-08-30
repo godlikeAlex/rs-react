@@ -1,5 +1,16 @@
+import { Logo, Spinner } from "@/components";
+import MainLayout from "./Layouts/MainLayout";
+
 function App() {
-  return <h1 className="text-lime-500">Performance</h1>;
+  return (
+    <MainLayout>
+      <Logo />
+      <Spinner
+        title="Please wait, data is loading."
+        description=" This may take up to 3 minutes."
+      />
+    </MainLayout>
+  );
 }
 
 export default App;
