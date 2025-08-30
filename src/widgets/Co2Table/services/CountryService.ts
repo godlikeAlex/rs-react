@@ -1,4 +1,4 @@
-import type { CountryList } from "@/types/Country";
+import type { CountryEntryData, CountryList } from "@/types/Country";
 
 export default class CountryService {
   static getAvailableYears(countryList: CountryList) {
@@ -9,5 +9,11 @@ export default class CountryService {
     });
 
     return years;
+  }
+
+  static retrieveEntryData(entiresData: CountryEntryData[], year?: number) {
+    if (!year) return entiresData.at(-1);
+
+    return entiresData.find((entryData) => entryData.year === year);
   }
 }

@@ -1,11 +1,16 @@
 import type { Country } from "@/types/Country";
+import CountryService from "@/widgets/Co2Table/services/CountryService";
 
 interface Props {
   country: Country & { name: string };
+  selectedYear?: number;
 }
 
-export default function TableRowCountry({ country }: Props) {
-  const currentCountryEntryData = country.data.at(-1);
+export default function TableRowCountry({ country, selectedYear }: Props) {
+  const currentCountryEntryData = CountryService.retrieveEntryData(
+    country.data,
+    selectedYear
+  );
 
   return (
     <tr className="border-b border-stone-200 text-xs">
