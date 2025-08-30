@@ -1,14 +1,12 @@
-import { Logo, Spinner } from "@/components";
+import { Logo } from "@/components";
 import MainLayout from "./Layouts/MainLayout";
+import { Co2Table } from "./widgets";
 
 function App() {
   return (
     <MainLayout>
       <Logo />
-      <Spinner
-        title="Please wait, data is loading."
-        description=" This may take up to 3 minutes."
-      />
+      <Co2Table />
     </MainLayout>
   );
 }
