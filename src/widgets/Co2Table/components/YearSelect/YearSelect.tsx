@@ -1,12 +1,9 @@
 import clsx from "clsx";
 
-import CountryService from "@/widgets/Co2Table/services/CountryService";
-import { useCo2Data } from "@/widgets/Co2Table/contexts/Co2Context";
+import useTable from "@/widgets/Co2Table/hooks/useTable";
 
 export default function YearSelect() {
-  const countryList = useCo2Data();
-
-  const years = CountryService.getAvailableYears(countryList);
+  const { availableYears, selectYear, selectedYear } = useTable();
 
   return (
     <select
@@ -15,10 +12,12 @@ export default function YearSelect() {
         "bg-gray-50 border border-gray-300 text-gray-900",
         "focus:ring-blue-500 focus:border-blue-500"
       )}
+      onChange={(e) => selectYear(Number(e.target.value))}
+      value={selectedYear}
     >
       <option>Latest Year</option>
 
-      {[...years].map((year) => (
+      {[...availableYears].map((year) => (
         <option key={year}>{year}</option>
       ))}
     </select>
