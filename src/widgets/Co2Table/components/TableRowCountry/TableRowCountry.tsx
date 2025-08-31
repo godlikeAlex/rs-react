@@ -1,5 +1,6 @@
 import type { Country } from "@/types/Country";
 import CountryService from "@/widgets/Co2Table/services/CountryService";
+import { TableColumn } from "@/widgets/Co2Table/components";
 
 interface Props {
   country: Country & { name: string };
@@ -14,14 +15,12 @@ export default function TableRowCountry({ country, selectedYear }: Props) {
 
   return (
     <tr className="border-b border-stone-200 text-xs">
-      <td className="p-4">{country.iso_code ?? "N/A"}</td>
-      <td className="p-4">{country.name ?? "N/A"}</td>
-      <td className="p-4">{currentCountryEntryData?.population ?? "N/A"}</td>
-      <td className="p-4">{currentCountryEntryData?.year ?? "N/A"}</td>
-      <td className="p-4">{currentCountryEntryData?.nitrous_oxide ?? "N/A"}</td>
-      <td className="p-4">
-        {currentCountryEntryData?.nitrous_oxide_per_capita}
-      </td>
+      <TableColumn value={country.iso_code} />
+      <TableColumn value={country.name} />
+      <TableColumn value={currentCountryEntryData?.population} />
+      <TableColumn value={currentCountryEntryData?.year} />
+      <TableColumn value={currentCountryEntryData?.nitrous_oxide} />
+      <TableColumn value={currentCountryEntryData?.nitrous_oxide_per_capita} />
     </tr>
   );
 }
