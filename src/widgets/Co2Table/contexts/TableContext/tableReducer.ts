@@ -33,6 +33,7 @@ export const initialTableState: TableState = {
   sortColumn: { name: "name", direction: "asc" },
   isOpenSelectColumnsModal: false,
   visibleColumns: [],
+  searchTerm: "",
 };
 
 export default function tableReducer(
