@@ -3,28 +3,35 @@ import { useCo2Data } from "@/widgets/Co2Table/contexts/Co2Context";
 import CountryService from "../services/CountryService";
 import type { OptionalCountryEntryData } from "@/types/Country";
 import type { SortColumns } from "../contexts/TableContext/tableReducer";
+import { useCallback, useMemo } from "react";
 
 export default function useTable() {
   const { countryList, columns } = useCo2Data();
   const { state, dispatch } = useTableContext();
 
-  const availableYears = CountryService.getAvailableYears(countryList);
-  const actualCountries = CountryService.filterCountries(countryList, {
-    searchTerm: state.searchTerm,
-    sort: state.sortColumn,
-  });
+  const availableYears = useMemo(
+    () => CountryService.getAvailableYears(countryList),
+    [countryList]
+  );
+  const actualCountries = useMemo(() => {
+    return CountryService.filterCountries(countryList, {
+      searchTerm: state.searchTerm,
+      sort: state.sortColumn,
+    });
+  }, [state.searchTerm, state.sortColumn, countryList]);
 
-  function selectYear(year: number) {
-    dispatch({ type: "SELECT_YEAR", payload: year });
-  }
+  const selectYear = useCallback(
+    (year: number) => dispatch({ type: "SELECT_YEAR", payload: year }),
+    []
+  );
 
   function applySearch(searchTerm: string) {
     dispatch({ type: "APPLY_SEARCH", payload: searchTerm });
   }
 
-  function toggleSort(columnName: SortColumns) {
+  const toggleSort = useCallback((columnName: SortColumns) => {
     dispatch({ type: "TOGGLE_SORT", payload: { columnName } });
-  }
+  }, []);
 
   function openSelectColumnsModal() {
     dispatch({ type: "SHOW_SELECT_COLUMN_MODAL" });

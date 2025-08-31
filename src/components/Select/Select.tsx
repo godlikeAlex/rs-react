@@ -1,5 +1,5 @@
+import { memo, type ChangeEvent, type SelectHTMLAttributes } from "react";
 import clsx from "clsx";
-import type { ChangeEvent, SelectHTMLAttributes } from "react";
 
 type ListItem = {
   label: string | number;
@@ -12,7 +12,7 @@ interface Props
   onChange: (value: string) => void;
 }
 
-export default function Select({ list, className, onChange, ...props }: Props) {
+function Select({ list, className, onChange, ...props }: Props) {
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     onChange(e.target.value);
   };
@@ -36,3 +36,5 @@ export default function Select({ list, className, onChange, ...props }: Props) {
     </select>
   );
 }
+
+export default memo(Select);

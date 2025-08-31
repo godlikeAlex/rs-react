@@ -1,5 +1,5 @@
 import { Checkbox, Modal } from "@/components";
-import type { ComponentProps } from "react";
+import { type ComponentProps } from "react";
 import useTable from "@/widgets/Co2Table/hooks/useTable";
 import { transformColumnNameToHuman } from "@/uitls/utils";
 
@@ -17,7 +17,7 @@ export default function SelectColumnsModal(props: Props) {
           <Checkbox
             key={column}
             label={transformColumnNameToHuman(column)}
-            onChange={() => toggleVisibleColumn(column)}
+            onChange={toggleVisibleColumn.bind(null, column)}
             checked={visibleColumns.includes(column)}
           />
         ))}

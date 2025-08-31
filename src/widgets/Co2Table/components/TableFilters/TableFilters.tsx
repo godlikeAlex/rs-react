@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { Button, Input, Select } from "@/components";
 import useTable from "@/widgets/Co2Table/hooks/useTable";
+import { useCallback, useMemo } from "react";
 
 export default function TableFilters() {
   const {
@@ -12,18 +13,25 @@ export default function TableFilters() {
     openSelectColumnsModal,
   } = useTable();
 
-  const yearsList = [...availableYears].map((year) => ({
-    value: year,
-    label: year,
-  }));
+  const yearsList = useMemo(() => {
+    const years = [...availableYears].map((year) => ({
+      value: year,
+      label: year,
+    }));
+
+    return [{ value: undefined, label: "Latest Year" }, ...years];
+  }, [availableYears]);
 
   const handleSearch = (value: string) => {
     applySearch(value);
   };
 
-  const handleChangeYear = (value: string) => {
-    selectYear(Number(value));
-  };
+  const handleChangeYear = useCallback(
+    (value: string) => {
+      selectYear(Number(value));
+    },
+    [selectYear]
+  );
 
   return (
     <div>
@@ -34,7 +42,7 @@ export default function TableFilters() {
           value={searchTerm}
         />
         <Select
-          list={[{ value: undefined, label: "Latest Year" }, ...yearsList]}
+          list={yearsList}
           onChange={handleChangeYear}
           value={selectedYear}
         />

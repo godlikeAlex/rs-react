@@ -1,16 +1,16 @@
+import { memo } from "react";
 import type { Country } from "@/types/Country";
 import CountryService from "@/widgets/Co2Table/services/CountryService";
 import { TableColumn } from "@/widgets/Co2Table/components";
-import useTable from "@/widgets/Co2Table/hooks/useTable";
+import type { VisibleColumns } from "../../contexts/TableContext/tableReducer";
 
 interface Props {
   country: Country & { name: string };
   selectedYear?: number;
+  visibleColumns: VisibleColumns;
 }
 
-export default function TableRowCountry({ country, selectedYear }: Props) {
-  const { visibleColumns } = useTable();
-
+function TableRowCountry({ country, selectedYear, visibleColumns }: Props) {
   const currentCountryEntryData = CountryService.retrieveEntryData(
     country.data,
     selectedYear
@@ -44,3 +44,5 @@ export default function TableRowCountry({ country, selectedYear }: Props) {
     </tr>
   );
 }
+
+export default memo(TableRowCountry);

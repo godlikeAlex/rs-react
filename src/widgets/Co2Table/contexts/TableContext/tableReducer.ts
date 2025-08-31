@@ -9,12 +9,14 @@ export type SortColumns = StaticColumns | keyof CountryEntryData;
 
 export type SortColumn = { name: SortColumns; direction: "desc" | "asc" };
 
+export type VisibleColumns = Array<keyof OptionalCountryEntryData>;
+
 export type TableState = {
   selectedYear?: number;
   searchTerm?: string;
   sortColumn: SortColumn;
   isOpenSelectColumnsModal: boolean;
-  visibleColumns: Array<keyof OptionalCountryEntryData>;
+  visibleColumns: VisibleColumns;
 };
 
 export type TableActionType =

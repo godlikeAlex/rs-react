@@ -13,6 +13,7 @@ export default function Table() {
     countries,
     isOpenSelectColumnsModal,
     closeSelectColumnsModal,
+    visibleColumns,
   } = useTable();
 
   return (
@@ -32,6 +33,7 @@ export default function Table() {
                 key={country.name}
                 country={country}
                 selectedYear={selectedYear}
+                visibleColumns={visibleColumns}
               />
             ))}
           </tbody>

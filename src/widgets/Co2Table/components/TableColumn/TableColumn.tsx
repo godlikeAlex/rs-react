@@ -1,15 +1,12 @@
 import clsx from "clsx";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
 interface Props {
   value?: string | number;
   highlightOnUpdate?: boolean;
 }
 
-export default function TableColumn({
-  value = "N/A",
-  highlightOnUpdate,
-}: Props) {
+function TableColumn({ value = "N/A", highlightOnUpdate }: Props) {
   const [isHighlighted, setIsHighlighted] = useState(false);
   const isFirstRender = useRef(true);
   const prevValueRef = useRef(value);
@@ -45,3 +42,5 @@ export default function TableColumn({
     </td>
   );
 }
+
+export default memo(TableColumn);
