@@ -1,8 +1,13 @@
 import clsx from "clsx";
 import type { SelectHTMLAttributes } from "react";
 
+type ListItem = {
+  label: string | number;
+  value?: string | number;
+};
+
 interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
-  list: Array<string | number>;
+  list: ListItem[];
 }
 
 export default function Select({ list, className, ...props }: Props) {
@@ -16,8 +21,8 @@ export default function Select({ list, className, ...props }: Props) {
       )}
       {...props}
     >
-      {list.map((listValue) => (
-        <option key={listValue}>{listValue}</option>
+      {list.map(({ value, label }) => (
+        <option key={value}>{label}</option>
       ))}
     </select>
   );
