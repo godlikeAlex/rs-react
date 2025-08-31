@@ -3,6 +3,10 @@ export interface Country {
   data: CountryEntryData[];
 }
 
+export interface CountryWithName extends Country {
+  name: string;
+}
+
 export interface CountryEntryData {
   year: number;
   population: number;

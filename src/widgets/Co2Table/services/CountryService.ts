@@ -1,4 +1,8 @@
-import type { CountryEntryData, CountryList } from "@/types/Country";
+import type {
+  CountryEntryData,
+  CountryList,
+  CountryWithName,
+} from "@/types/Country";
 
 export default class CountryService {
   static getAvailableYears(countryList: CountryList) {
@@ -15,5 +19,24 @@ export default class CountryService {
     if (!year) return entiresData.at(-1);
 
     return entiresData.find((entryData) => entryData.year === year);
+  }
+
+  static filterCountries(
+    countryList: CountryList,
+    { searchTerm }: { searchTerm?: string }
+  ): CountryWithName[] {
+    return Object.entries(countryList)
+      .filter(([countryName]) => {
+        let matchesSearch = true;
+
+        if (searchTerm) {
+          matchesSearch = countryName
+            .toLocaleLowerCase()
+            .includes(searchTerm.toLocaleLowerCase());
+        }
+
+        return matchesSearch;
+      })
+      .map(([countryName, country]) => ({ name: countryName, ...country }));
   }
 }
