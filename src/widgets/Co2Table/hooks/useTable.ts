@@ -1,6 +1,6 @@
 import { useTableContext } from "@/widgets/Co2Table/contexts/TableContext";
 import { useCo2Data } from "@/widgets/Co2Table/contexts/Co2Context";
-import CountryService from "../services/CountryService";
+import CountryService, { type SortOption } from "../services/CountryService";
 
 export default function useTable() {
   const countryList = useCo2Data();
@@ -9,6 +9,7 @@ export default function useTable() {
   const availableYears = CountryService.getAvailableYears(countryList);
   const actualCountries = CountryService.filterCountries(countryList, {
     searchTerm: state.searchTerm,
+    sort: state.sort,
   });
 
   function selectYear(year: number) {
@@ -19,6 +20,10 @@ export default function useTable() {
     dispatch({ type: "APPLY_SEARCH", payload: searchTerm });
   }
 
+  function applySort(sort: SortOption) {
+    dispatch({ type: "APPLY_SORT", payload: sort });
+  }
+
   return {
     availableYears,
     selectYear,
@@ -26,5 +31,7 @@ export default function useTable() {
     applySearch,
     searchTerm: state.searchTerm,
     countries: actualCountries,
+    sort: state.sort,
+    applySort,
   };
 }

@@ -4,6 +4,19 @@ import type {
   CountryWithName,
 } from "@/types/Country";
 
+export const sortOptions = [
+  "name.asc",
+  "name.desc",
+  "population.asc",
+  "population.desc",
+] as const;
+
+export type SortOption = (typeof sortOptions)[number];
+
+export function isSortOption(value: string): value is SortOption {
+  return (sortOptions as readonly string[]).includes(value);
+}
+
 export default class CountryService {
   static getAvailableYears(countryList: CountryList) {
     const years = new Set<number>();
@@ -23,20 +36,49 @@ export default class CountryService {
 
   static filterCountries(
     countryList: CountryList,
-    { searchTerm }: { searchTerm?: string }
+    {
+      searchTerm,
+      sort,
+      selectedYear,
+    }: { searchTerm?: string; sort: SortOption; selectedYear?: number }
   ): CountryWithName[] {
     return Object.entries(countryList)
-      .filter(([countryName]) => {
+      .map(([countryName, country]) => ({ name: countryName, ...country }))
+      .sort((a, b) => {
+        const dataFromA = CountryService.retrieveEntryData(
+          a.data,
+          selectedYear
+        );
+        const dataFromB = CountryService.retrieveEntryData(
+          b.data,
+          selectedYear
+        );
+
+        switch (sort) {
+          case "name.asc":
+            return a.name > b.name ? 1 : a.name < b.name ? -1 : 0;
+          case "name.desc":
+            return a.name < b.name ? 1 : a.name > b.name ? -1 : 0;
+          case "population.asc":
+            if (!dataFromA || !dataFromB) return 1;
+
+            return dataFromA.population - dataFromB.population;
+          case "population.desc":
+            if (!dataFromA || !dataFromB) return 1;
+
+            return dataFromB.population - dataFromA.population;
+        }
+      })
+      .filter((country) => {
         let matchesSearch = true;
 
         if (searchTerm) {
-          matchesSearch = countryName
+          matchesSearch = country.name
             .toLocaleLowerCase()
             .includes(searchTerm.toLocaleLowerCase());
         }
 
         return matchesSearch;
-      })
-      .map(([countryName, country]) => ({ name: countryName, ...country }));
+      });
   }
 }

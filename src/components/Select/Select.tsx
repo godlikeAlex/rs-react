@@ -22,7 +22,9 @@ export default function Select({ list, className, ...props }: Props) {
       {...props}
     >
       {list.map(({ value, label }) => (
-        <option key={value}>{label}</option>
+        <option key={`${label}-${value}`} value={value}>
+          {label}
+        </option>
       ))}
     </select>
   );

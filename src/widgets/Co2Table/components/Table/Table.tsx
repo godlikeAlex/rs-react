@@ -7,10 +7,10 @@ export default function Table() {
   const { selectedYear, countries } = useTable();
 
   return (
-    <>
+    <div className="mt-10">
       <TableFilters />
 
-      <table className="w-full">
+      <table className="w-full mt-4">
         <TableHeader />
 
         <tbody>
@@ -23,6 +23,6 @@ export default function Table() {
           ))}
         </tbody>
       </table>
-    </>
+    </div>
   );
 }
