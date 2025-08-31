@@ -1,14 +1,26 @@
-import { TableFilters } from "../TableFilters";
-import { TableHeader } from "../TableHeader";
-import { TableRowCountry } from "../TableRowCountry";
 import useTable from "@/widgets/Co2Table/hooks/useTable";
+import {
+  TableHeader,
+  TableFilters,
+  SelectColumnsModal,
+  TableRowCountry,
+} from "@/widgets/Co2Table/components";
 
 export default function Table() {
-  const { selectedYear, countries } = useTable();
+  const {
+    selectedYear,
+    countries,
+    isOpenSelectColumnsModal,
+    closeSelectColumnsModal,
+  } = useTable();
 
   return (
     <div className="mt-10">
       <TableFilters />
+      <SelectColumnsModal
+        isOpen={isOpenSelectColumnsModal}
+        onClose={closeSelectColumnsModal}
+      />
 
       <table className="w-full mt-4">
         <TableHeader />

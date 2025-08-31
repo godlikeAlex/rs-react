@@ -1,6 +1,6 @@
-import type { ChangeEvent } from "react";
+import { type ChangeEvent } from "react";
 
-import { Input, Select } from "@/components";
+import { Button, Input, Select } from "@/components";
 import clsx from "clsx";
 
 import useTable from "@/widgets/Co2Table/hooks/useTable";
@@ -25,6 +25,7 @@ export default function TableFilters() {
     sort,
     applySort,
     selectedYear,
+    openSelectColumnsModal,
   } = useTable();
 
   const yearsList = [...availableYears].map((year) => ({
@@ -65,6 +66,8 @@ export default function TableFilters() {
         onChange={handleChangeYear}
         value={selectedYear}
       />
+
+      <Button onClick={openSelectColumnsModal}>Select Columns</Button>
     </div>
   );
 }

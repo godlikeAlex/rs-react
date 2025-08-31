@@ -1,7 +1,7 @@
-import type {
-  CountryEntryData,
-  CountryList,
-  CountryWithName,
+import {
+  type CountryEntryData,
+  type CountryList,
+  type CountryWithName,
 } from "@/types/Country";
 
 export const sortOptions = [

@@ -11,6 +11,16 @@ export default function Co2ContextProvider({
   children: ReactNode;
 }) {
   const co2Data = use(retrieveAllData);
+  const columns = Co2Service.retrieveAllColumns(co2Data);
 
-  return <Co2Context.Provider value={co2Data}>{children}</Co2Context.Provider>;
+  return (
+    <Co2Context.Provider
+      value={{
+        countryList: co2Data,
+        columns,
+      }}
+    >
+      {children}
+    </Co2Context.Provider>
+  );
 }
