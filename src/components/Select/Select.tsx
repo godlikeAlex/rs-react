@@ -1,16 +1,22 @@
 import clsx from "clsx";
-import type { SelectHTMLAttributes } from "react";
+import type { ChangeEvent, SelectHTMLAttributes } from "react";
 
 type ListItem = {
   label: string | number;
   value?: string | number;
 };
 
-interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
+interface Props
+  extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "onChange"> {
   list: ListItem[];
+  onChange: (value: string) => void;
 }
 
-export default function Select({ list, className, ...props }: Props) {
+export default function Select({ list, className, onChange, ...props }: Props) {
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    onChange(e.target.value);
+  };
+
   return (
     <select
       className={clsx(
@@ -19,6 +25,7 @@ export default function Select({ list, className, ...props }: Props) {
         "focus:ring-blue-500 focus:border-blue-500",
         className
       )}
+      onChange={handleChange}
       {...props}
     >
       {list.map(({ value, label }) => (

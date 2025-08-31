@@ -1,7 +1,8 @@
 import { useTableContext } from "@/widgets/Co2Table/contexts/TableContext";
 import { useCo2Data } from "@/widgets/Co2Table/contexts/Co2Context";
-import CountryService, { type SortOption } from "../services/CountryService";
+import CountryService from "../services/CountryService";
 import type { OptionalCountryEntryData } from "@/types/Country";
+import type { SortColumns } from "../contexts/TableContext/tableReducer";
 
 export default function useTable() {
   const { countryList, columns } = useCo2Data();
@@ -10,7 +11,7 @@ export default function useTable() {
   const availableYears = CountryService.getAvailableYears(countryList);
   const actualCountries = CountryService.filterCountries(countryList, {
     searchTerm: state.searchTerm,
-    sort: state.sort,
+    sort: state.sortColumn,
   });
 
   function selectYear(year: number) {
@@ -21,8 +22,8 @@ export default function useTable() {
     dispatch({ type: "APPLY_SEARCH", payload: searchTerm });
   }
 
-  function applySort(sort: SortOption) {
-    dispatch({ type: "APPLY_SORT", payload: sort });
+  function toggleSort(columnName: SortColumns) {
+    dispatch({ type: "TOGGLE_SORT", payload: { columnName } });
   }
 
   function openSelectColumnsModal() {
@@ -44,8 +45,8 @@ export default function useTable() {
     applySearch,
     searchTerm: state.searchTerm,
     countries: actualCountries,
-    sort: state.sort,
-    applySort,
+    sortColumn: state.sortColumn,
+    toggleSort,
     openSelectColumnsModal,
     closeSelectColumnsModal,
     isOpenSelectColumnsModal: state.isOpenSelectColumnsModal,

@@ -1,11 +1,18 @@
 import { produce } from "immer";
-import type { SortOption } from "@/widgets/Co2Table/services/CountryService";
-import type { OptionalCountryEntryData } from "@/types/Country";
+import type {
+  CountryEntryData,
+  OptionalCountryEntryData,
+} from "@/types/Country";
+
+type StaticColumns = "name" | "iso_code";
+export type SortColumns = StaticColumns | keyof CountryEntryData;
+
+export type SortColumn = { name: SortColumns; direction: "desc" | "asc" };
 
 export type TableState = {
   selectedYear?: number;
   searchTerm?: string;
-  sort: SortOption;
+  sortColumn: SortColumn;
   isOpenSelectColumnsModal: boolean;
   visibleColumns: Array<keyof OptionalCountryEntryData>;
 };
@@ -13,7 +20,7 @@ export type TableState = {
 export type TableActionType =
   | { type: "SELECT_YEAR"; payload: number }
   | { type: "APPLY_SEARCH"; payload: string }
-  | { type: "APPLY_SORT"; payload: SortOption }
+  | { type: "TOGGLE_SORT"; payload: { columnName: SortColumns } }
   | { type: "SHOW_SELECT_COLUMN_MODAL" }
   | { type: "CLOSE_SELECT_COLUMN_MODAL" }
   | {
@@ -23,7 +30,7 @@ export type TableActionType =
 
 export const initialTableState: TableState = {
   selectedYear: undefined,
-  sort: "name.asc",
+  sortColumn: { name: "name", direction: "asc" },
   isOpenSelectColumnsModal: false,
   visibleColumns: [],
 };
@@ -40,10 +47,6 @@ export default function tableReducer(
     case "APPLY_SEARCH":
       return produce(state, (currentState) => {
         currentState.searchTerm = action.payload;
-      });
-    case "APPLY_SORT":
-      return produce(state, (currentState) => {
-        currentState.sort = action.payload;
       });
     case "SHOW_SELECT_COLUMN_MODAL":
       return produce(state, (currentState) => {
@@ -62,6 +65,18 @@ export default function tableReducer(
         } else {
           currentState.visibleColumns.push(action.payload.columnName);
         }
+      });
+    case "TOGGLE_SORT":
+      return produce(state, (currentState) => {
+        if (currentState.sortColumn.name === action.payload.columnName) {
+          currentState.sortColumn.direction =
+            currentState.sortColumn.direction == "asc" ? "desc" : "asc";
+
+          return;
+        }
+
+        currentState.sortColumn.name = action.payload.columnName;
+        currentState.sortColumn.direction = "asc";
       });
     default:
       throw Error("Unknown action:");

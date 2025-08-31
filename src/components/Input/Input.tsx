@@ -1,9 +1,16 @@
-import type { InputHTMLAttributes } from "react";
+import type { ChangeEvent, InputHTMLAttributes } from "react";
 import clsx from "clsx";
 
-type Props = InputHTMLAttributes<HTMLInputElement>;
+type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, "onChange">;
 
-export default function Input({ className, ...props }: Props) {
+interface Props extends InputProps {
+  onChange: (value: string) => void;
+}
+
+export default function Input({ className, onChange, ...props }: Props) {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
+    onChange(e.target.value);
+
   return (
     <input
       className={clsx(
@@ -12,6 +19,7 @@ export default function Input({ className, ...props }: Props) {
         "focus:ring-blue-500 focus:border-blue-500",
         className
       )}
+      onChange={handleChange}
       {...props}
     />
   );

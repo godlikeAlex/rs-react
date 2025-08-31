@@ -1,20 +1,6 @@
-import { type ChangeEvent } from "react";
-
-import { Button, Input, Select } from "@/components";
 import clsx from "clsx";
-
+import { Button, Input, Select } from "@/components";
 import useTable from "@/widgets/Co2Table/hooks/useTable";
-import {
-  isSortOption,
-  type SortOption,
-} from "@/widgets/Co2Table/services/CountryService";
-
-const SORT_OPTIONS_LIST: { value: SortOption; label: string }[] = [
-  { value: "name.asc", label: "Name ↑" },
-  { value: "name.desc", label: "Name ↓" },
-  { value: "population.asc", label: "Population ↑" },
-  { value: "population.desc", label: "Population ↓" },
-];
 
 export default function TableFilters() {
   const {
@@ -22,8 +8,6 @@ export default function TableFilters() {
     applySearch,
     selectYear,
     availableYears,
-    sort,
-    applySort,
     selectedYear,
     openSelectColumnsModal,
   } = useTable();
@@ -33,41 +17,36 @@ export default function TableFilters() {
     label: year,
   }));
 
-  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    applySearch(e.target.value);
+  const handleSearch = (value: string) => {
+    applySearch(value);
   };
 
-  const handleChangeYear = (e: ChangeEvent<HTMLSelectElement>) => {
-    selectYear(Number(e.target.value));
-  };
-
-  const handleChangeSort = (e: ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-
-    if (isSortOption(value)) {
-      applySort(value);
-    }
+  const handleChangeYear = (value: string) => {
+    selectYear(Number(value));
   };
 
   return (
-    <div className={clsx("flex justify-end gap-3")}>
-      <Select
-        list={SORT_OPTIONS_LIST}
-        value={sort}
-        onChange={handleChangeSort}
-      />
-      <Input
-        placeholder="Search by country"
-        onChange={handleSearch}
-        value={searchTerm}
-      />
-      <Select
-        list={[{ value: undefined, label: "Latest Year" }, ...yearsList]}
-        onChange={handleChangeYear}
-        value={selectedYear}
-      />
+    <div>
+      <div className={clsx("flex justify-end gap-3")}>
+        <Input
+          placeholder="Search by country"
+          onChange={handleSearch}
+          value={searchTerm}
+        />
+        <Select
+          list={[{ value: undefined, label: "Latest Year" }, ...yearsList]}
+          onChange={handleChangeYear}
+          value={selectedYear}
+        />
 
-      <Button onClick={openSelectColumnsModal}>Select Columns</Button>
+        <Button onClick={openSelectColumnsModal}>Select Columns</Button>
+      </div>
+
+      <div className={clsx("flex justify-end  mt-2")}>
+        <p className="text-sm text-amber-400">
+          To apply sort, please click to any header column
+        </p>
+      </div>
     </div>
   );
 }

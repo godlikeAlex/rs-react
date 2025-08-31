@@ -3,19 +3,7 @@ import {
   type CountryList,
   type CountryWithName,
 } from "@/types/Country";
-
-export const sortOptions = [
-  "name.asc",
-  "name.desc",
-  "population.asc",
-  "population.desc",
-] as const;
-
-export type SortOption = (typeof sortOptions)[number];
-
-export function isSortOption(value: string): value is SortOption {
-  return (sortOptions as readonly string[]).includes(value);
-}
+import type { SortColumn } from "../contexts/TableContext/tableReducer";
 
 export default class CountryService {
   static getAvailableYears(countryList: CountryList) {
@@ -40,7 +28,7 @@ export default class CountryService {
       searchTerm,
       sort,
       selectedYear,
-    }: { searchTerm?: string; sort: SortOption; selectedYear?: number }
+    }: { searchTerm?: string; sort: SortColumn; selectedYear?: number }
   ): CountryWithName[] {
     return Object.entries(countryList)
       .map(([countryName, country]) => ({ name: countryName, ...country }))
@@ -54,19 +42,50 @@ export default class CountryService {
           selectedYear
         );
 
-        switch (sort) {
-          case "name.asc":
+        if (sort.name === "name") {
+          if (sort.direction === "asc") {
             return a.name > b.name ? 1 : a.name < b.name ? -1 : 0;
-          case "name.desc":
+          } else {
             return a.name < b.name ? 1 : a.name > b.name ? -1 : 0;
-          case "population.asc":
-            if (!dataFromA || !dataFromB) return 1;
+          }
+        }
 
-            return dataFromA.population - dataFromB.population;
-          case "population.desc":
-            if (!dataFromA || !dataFromB) return 1;
+        if (sort.name === "iso_code") {
+          if (!a.iso_code || !b.iso_code) return 1;
 
-            return dataFromB.population - dataFromA.population;
+          if (sort.direction === "asc") {
+            return a.iso_code > b.iso_code
+              ? 1
+              : a.iso_code < b.iso_code
+                ? -1
+                : 0;
+          } else {
+            return a.iso_code < b.iso_code
+              ? 1
+              : a.iso_code > b.iso_code
+                ? -1
+                : 0;
+          }
+        }
+
+        if (sort.direction === "asc") {
+          if (!dataFromA || !dataFromB) return 1;
+
+          const sortA = dataFromA[sort.name];
+          const sortB = dataFromB[sort.name];
+
+          if (!sortA || !sortB) return 1;
+
+          return sortA - sortB;
+        } else {
+          if (!dataFromA || !dataFromB) return 1;
+
+          const sortA = dataFromA[sort.name];
+          const sortB = dataFromB[sort.name];
+
+          if (!sortA || !sortB) return 1;
+
+          return sortB - sortA;
         }
       })
       .filter((country) => {
