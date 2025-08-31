@@ -22,9 +22,9 @@ export default function TableFilters() {
     return [{ value: undefined, label: "Latest Year" }, ...years];
   }, [availableYears]);
 
-  const handleSearch = (value: string) => {
+  const handleSearch = useCallback((value: string) => {
     applySearch(value);
-  };
+  }, []);
 
   const handleChangeYear = useCallback(
     (value: string) => {
